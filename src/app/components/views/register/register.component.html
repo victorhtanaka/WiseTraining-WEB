@@ -1,0 +1,33 @@
+<div class="gradient-line"></div>
+<div class="register-container">
+    <mat-card class="register-card">
+        <mat-card-header>
+            <mat-card-title class="headline">Cadastro</mat-card-title>
+            <mat-card-subtitle>Preencha suas informações para criar uma conta</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form (ngSubmit)="onSubmit()" class="form" [formGroup]="registerForm">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Nome de usuário</mat-label>
+                    <input type="text" matInput formControlName="username">
+                    <mat-error *ngIf="getUsernameError()">{{ getUsernameError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Senha</mat-label>
+                    <input type="password" matInput formControlName="password" placeholder="Ex. pat@example.com">
+                    <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
+                </mat-form-field>
+                <button type="submit" mat-stroked-button color="primary" class="w-full">Criar conta</button>
+                <button type="button" mat-flat-button color="accent" class="w-full mt-2" (click)="onGoogleLogin()">Entrar com Google</button>
+            </form>
+            <div class="mt-4 text-center text-sm">
+                Já tem uma conta?
+                <a routerLink="/login" class="underline">Login</a>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

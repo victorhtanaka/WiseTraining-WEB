@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mat-form-field-infix {
+  background-color: white;
+  color: black;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  height: 90vh;
+
+  h1 {
+    font-size: 6em;
+    height: 20vh;
+    align-content: center;
+  }
+}
+
+.gradient-line {
+  width: 100%;
+  height: 8px;
+  position: fixed;
+  background: #f0be6e;
+  background: linear-gradient(90deg, rgba(240, 190, 110, 1) 0%, rgba(94, 87, 199, 1) 61%, rgba(127, 48, 184, 1) 100%);
+}

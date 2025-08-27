@@ -1,0 +1,50 @@
+@use '@angular/material' as mat;
+
+html, body {
+  height: 100%;
+  background-color: rgb(27, 26, 27);
+  color: rgb(221, 221, 221);
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+* {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-typography,
+.mat-h1, .mat-headline-5,
+.mat-typography .mat-h1, .mat-typography .mat-headline-5,
+.mat-typography h1, .mat-typography h2, .mat-typography h3,
+.mat-typography h4, .mat-typography h5, .mat-typography h6,
+.mat-typography p, .mat-typography span, .mat-typography div {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.primary-text {
+  color: rgb(158, 61, 61);
+}
+
+:root {
+    // 0E2148
+    // 483AA0
+    // 7965C1
+    // E3D095
+    --primary-color: #4b36d0;
+    --secondary-color: #E3D095;
+  @include mat.button-overrides((
+    // filled button
+    filled-container-color: var(--primary-color),
+    filled-label-text-color: rgb(225, 225, 218),
+    filled-hover-state-layer-opacity: 0.12,
+    filled-container-height: 56px,
+
+    outlined-outline-color: #E3D095,
+    outlined-label-text-color: #E3D095,
+    outlined-hover-state-layer-opacity: 0.12,
+    outlined-container-height: 56px,
+    
+    filled-disabled-container-color: rgb(50, 40, 117),
+    filled-disabled-label-text-color: #9c9c9c,
+  ));
+}

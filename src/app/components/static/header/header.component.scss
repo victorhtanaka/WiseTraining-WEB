@@ -1,0 +1,11 @@
+mat-toolbar {
+    color: white;
+    height: 60px;
+    position: relative;
+    z-index: 999;
+    background-color: rgb(114, 67, 223);
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
