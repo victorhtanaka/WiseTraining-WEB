@@ -1,28 +1,43 @@
-<!-- <mat-grid-list cols="3" rowHeight="0.8:1">
-  <mat-grid-tile>1</mat-grid-tile>
-  <mat-grid-tile>
-    <div class="center">
-      <button mat-flat-button routerLink="/Cadastro">Cadastrar-se</button>
-      <button mat-flat-button routerLink="/Login">Fazer Login</button>
-      <button mat-flat-button (click)="onGoogleLogin()">
-        Entrar com Google
-      </button>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
-</mat-grid-list> -->
-<div class="gradient-line"></div>
 <div class="unlogged-container">
-  <div class="left-side">
-    <span class="fw-bold">WiseTraining</span>
-    <span class="display-3 fw-bold">Descubra novos interesses</span>
-    <p class="lead">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-    <div class="button-container">
-      <button mat-flat-button routerLink="/Cadastro">Cadastrar-se</button>
-      <button mat-stroked-button routerLink="/Login">Fazer Login</button>
+  <div class="gradient-line"></div>
+  
+  <header class="header">
+    <span class="logo">WiseTraining</span>
+    <div class="header-actions">
+      <button mat-stroked-button routerLink="/Login">Sign In</button>
+      <button mat-flat-button color="primary" routerLink="/Register">Get Started</button>
     </div>
-  </div>
-  <div class="right-side">
-    <img src="" alt="">
-  </div>
+  </header>
+  
+  <main class="main-content">
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Discover new skills</h1>
+        <p class="hero-description">
+          WiseTraining is a comprehensive platform for creating, managing, and delivering effective training content for your organization.
+        </p>
+        <div class="hero-actions">
+          <button mat-flat-button color="primary" routerLink="/Register">Create Account</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="assets/hero-image.png" alt="Learning illustration">
+      </div>
+    </section>
+    
+    <section class="features">
+      <h2 class="section-title">Key Features</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <mat-icon class="feature-icon">{{feature.icon}}</mat-icon>
+          <h3 class="feature-title">{{feature.title}}</h3>
+          <p class="feature-description">{{feature.description}}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer class="footer">
+    <p>&copy; 2025 WiseTraining. All rights reserved.</p>
+  </footer>
 </div>

@@ -9,7 +9,7 @@
             <form (ngSubmit)="onSubmit()" class="form" [formGroup]="registerForm">
                 <mat-form-field appearance="outline" class="w-full">
                     <mat-label>Nome de usuário</mat-label>
-                    <input type="text" matInput formControlName="username">
+                    <input type="text" matInput formControlName="fullName">
                     <mat-error *ngIf="getUsernameError()">{{ getUsernameError() }}</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-full">
@@ -18,7 +18,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-full">
                     <mat-label>Senha</mat-label>
-                    <input type="password" matInput formControlName="password" placeholder="Ex. pat@example.com">
+                    <input type="password" matInput formControlName="passwordHash" placeholder="Ex. pat@example.com">
                     <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
                 </mat-form-field>
                 <button type="submit" mat-stroked-button color="primary" class="w-full">Criar conta</button>

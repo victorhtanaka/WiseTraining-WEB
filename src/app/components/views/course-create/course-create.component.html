@@ -1,0 +1,117 @@
+<div class="create-course-container">
+  <div class="header">
+    <button mat-icon-button routerLink="/courses">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1 class="title">New Course</h1>
+    <div class="status-badge">Draft</div>
+    <div class="spacer"></div>
+    <div class="actions">
+      <button mat-stroked-button (click)="onDiscardCourse()">Discard</button>
+      <button mat-flat-button color="primary" (click)="onSaveCourse()">Save Course</button>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <div class="main-column">
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Course Details</mat-card-title>
+          <mat-card-subtitle>Provide the main details for your new course.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="courseForm" class="form-layout">
+            <div class="form-field">
+              <mat-label>Title</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <input matInput formControlName="title" placeholder="e.g. Advanced Project Management">
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field">
+              <mat-label>Description</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <textarea matInput formControlName="description" rows="5" 
+                  placeholder="A short, engaging summary of what learners will achieve."></textarea>
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field">
+              <mat-label>Keywords</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <input matInput formControlName="keywords" placeholder="e.g. agile, scrum, leadership">
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>AI Content Assistant</mat-card-title>
+          <mat-card-subtitle>
+            Don't know where to start? Provide a topic and a brief summary, and let our AI suggest a title, description, and keywords for you.
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="aiAssistForm" (ngSubmit)="onSubmitAiAssist()" class="form-layout">
+            <div class="form-field">
+              <mat-label>Topic</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <input matInput formControlName="topic" placeholder="e.g. Project Management">
+              </mat-form-field>
+            </div>
+            
+            <div class="form-field">
+              <mat-label>Content Summary</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <textarea matInput formControlName="contentSummary" rows="4" 
+                  placeholder="e.g. A course covering agile methodologies, team leadership, and budget management for experienced project managers."></textarea>
+              </mat-form-field>
+            </div>
+            
+            <button mat-flat-button color="primary" type="submit" 
+              [disabled]="aiAssistForm.invalid || suggestion"
+              class="ai-button">
+              <mat-icon>auto_fix_high</mat-icon>
+              Generate Suggestion
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    
+    <div class="sidebar-column">
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Course Status</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-field">
+            <mat-label>Status</mat-label>
+            <button mat-stroked-button class="full-width text-left">
+              Draft
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>Course Image</mat-card-title>
+          <mat-card-subtitle>Upload a cover image for your course.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="upload-container">
+            <mat-icon>cloud_upload</mat-icon>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="mobile-actions">
+    <button mat-stroked-button (click)="onDiscardCourse()">Discard</button>
+    <button mat-flat-button color="primary" (click)="onSaveCourse()">Save Course</button>
+  </div>
+</div>

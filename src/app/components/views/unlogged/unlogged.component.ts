@@ -10,9 +10,28 @@ import { UserService } from 'src/app/services/user.service';
     standalone: false
 })
 export class UnloggedComponent implements OnInit {
+  features = [
+    { 
+      title: 'Course Creation', 
+      description: 'Create engaging courses with multimedia content and track student progress.',
+      icon: 'school'
+    },
+    { 
+      title: 'AI-Assisted Content', 
+      description: 'Generate course content ideas and descriptions with our AI assistant.',
+      icon: 'auto_fix_high'
+    },
+    { 
+      title: 'Interactive Learning', 
+      description: 'Engage with course material through interactive exercises and assessments.',
+      icon: 'psychology'
+    }
+  ];
 
   constructor(private authService: AuthService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
   }
+
+
 }

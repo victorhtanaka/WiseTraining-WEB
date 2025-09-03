@@ -9,15 +9,15 @@ import { filter, Observable, Subject } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private readonly _destroying$ = new Subject<void>();
-  title = 'My Next Pick';
-  showHeader = true;
+  title = 'Wise Training';
+  showHeader = false;
 
   constructor(private router: Router
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        const hiddenHeaderRoutes = ['/Login', '/Cadastro', '/Unlogged'];
+        const hiddenHeaderRoutes = ['/', '/Login', '/Register', '/Unlogged'];
         this.showHeader = !hiddenHeaderRoutes.includes(event.url);
       });
   }

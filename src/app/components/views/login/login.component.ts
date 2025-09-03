@@ -10,7 +10,6 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   standalone: false
 })
 
@@ -47,7 +46,6 @@ export class LoginComponent {
     }
     this.userService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        console.log(res);
         this.authService.authenticate(res.token);
         this.router.navigate(['/']);
       }

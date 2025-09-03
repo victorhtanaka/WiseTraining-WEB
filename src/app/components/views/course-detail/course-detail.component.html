@@ -1,0 +1,57 @@
+<div class="course-container">
+  <div class="course-main">
+    <div class="video-container">
+      <div class="video-placeholder">
+        <img src="https://placehold.co/1280x720.png" alt="Course video">
+        <div class="play-button">
+          <mat-icon>play_circle_filled</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-info">
+      <h1 class="course-title">{{courseData.title}}</h1>
+      <p class="lesson-title">Lesson 1: What is Agile?</p>
+    </div>
+
+    <div class="lesson-content">
+      <h2>About this lesson</h2>
+      <p>
+        Welcome to the first lesson of our Advanced Project Management course. In this video, we'll dive deep into the core principles of Agile methodology. We will explore its origins, key concepts, and why it has become the gold standard for software development and project management in many industries.
+      </p>
+      <p>
+        By the end of this lesson, you will be able to define Agile, understand its benefits over traditional models like Waterfall, and identify situations where an Agile approach is most effective.
+      </p>
+    </div>
+  </div>
+
+  <div class="course-sidebar">
+    <div class="sidebar-header">
+      <h2>Course Content</h2>
+      <span class="completion-status">3/9 Completed</span>
+    </div>
+
+    <mat-accordion class="modules-accordion">
+      <mat-expansion-panel *ngFor="let module of courseData.modules; let i = index" [expanded]="i === 0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{module.title}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <mat-list>
+          <mat-list-item *ngFor="let lesson of module.lessons" class="lesson-item">
+            <mat-icon *ngIf="lesson.completed" class="completed-icon">check_circle</mat-icon>
+            <mat-icon *ngIf="!lesson.completed" class="incomplete-icon">circle</mat-icon>
+            <span class="lesson-title">{{lesson.title}}</span>
+            <span class="lesson-duration">{{lesson.type === 'video' ? '5 min' : '3 min'}}</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <button mat-flat-button color="primary" class="back-button" routerLink="/dashboard">
+      Back to Dashboard
+    </button>
+  </div>
+</div>

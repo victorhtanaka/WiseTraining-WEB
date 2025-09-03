@@ -20,6 +20,10 @@ export class UserService extends BaseService<User> {
     }),
   };
 
+  register(user: User, isCompany: boolean): Observable<any> {
+    return this.http.post(`https://localhost:7213/api/User/Register?isCompany=${isCompany}`, user, this.httpOptions);
+  }
+
   login(credentials: User): Observable<any> {
     return this.http.post('https://localhost:7213/api/User/Login', credentials, this.httpOptions);
   }

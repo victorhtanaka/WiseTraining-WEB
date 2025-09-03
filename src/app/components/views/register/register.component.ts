@@ -10,7 +10,6 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   standalone: false
 })
 
@@ -25,17 +24,17 @@ export class RegisterComponent {
     private readonly authService: AuthService
   ) {
     this.registerForm = this.fb.group({
-      username: this.fb.control('', [
+      fullName: this.fb.control('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
-        Validators.pattern(/^\w+$/)
+        /* Validators.pattern(/^\w+$/) */
       ]),
-      password: this.fb.control('', [
+      passwordHash: this.fb.control('', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(30),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+        /* Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/) */
       ]),
       email: this.fb.control('', [
         Validators.required,
@@ -49,7 +48,8 @@ export class RegisterComponent {
       this.registerForm.markAllAsTouched();
       return;
     }
-    this.userService.login(this.registerForm.value as User).subscribe(
+    console.log(this.registerForm.value as User);
+    this.userService.register(this.registerForm.value as User, true).subscribe(
       (res) => {
         this.authService.authenticate(res.token);
         this.router.navigate(['/']);

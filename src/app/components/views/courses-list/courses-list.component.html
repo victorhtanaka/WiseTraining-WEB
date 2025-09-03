@@ -1,0 +1,68 @@
+<mat-card class="courses-list-card">
+  <mat-card-header>
+    <div class="header-content">
+      <div>
+        <mat-card-title>Courses</mat-card-title>
+        <mat-card-subtitle>Manage your courses and view their status.</mat-card-subtitle>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button>Export</button>
+        <button mat-flat-button color="primary" routerLink="/courses/create">
+          <mat-icon>add_circle</mat-icon>
+          Create Course
+        </button>
+      </div>
+    </div>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <table mat-table [dataSource]="courses" class="courses-table">
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Course Title</th>
+        <td mat-cell *matCellDef="let course">{{course.title}}</td>
+      </ng-container>
+      
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let course">
+          <span class="status-badge" [ngClass]="{
+            'published': course.status === 'Published',
+            'draft': course.status === 'Draft',
+            'archived': course.status === 'Archived'
+          }">
+            {{course.status}}
+          </span>
+        </td>
+      </ng-container>
+      
+      <!-- Enrollments Column -->
+      <ng-container matColumnDef="enrollments">
+        <th mat-header-cell *matHeaderCellDef>Enrollments</th>
+        <td mat-cell *matCellDef="let course">{{course.totalEnrollments}}</td>
+      </ng-container>
+      
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="visually-hidden">Actions</span>
+        </th>
+        <td mat-cell *matCellDef="let course">
+          <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #actionsMenu="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button mat-menu-item>View Enrollments</button>
+            <button mat-menu-item>Preview</button>
+            <button mat-menu-item class="danger">Delete</button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

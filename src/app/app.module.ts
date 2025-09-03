@@ -50,6 +50,10 @@ import { UnloggedComponent } from './components/views/unlogged/unlogged.componen
 import { environment } from 'src/environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { DashboardComponent } from './components/views/dashboard/dashboard.component';
+import { CoursesListComponent } from './components/views/courses-list/courses-list.component';
+import { CourseCreateComponent } from './components/views/course-create/course-create.component';
+import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 
 @NgModule({
     declarations: [
@@ -58,7 +62,11 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
         BodyComponent,
         LoginComponent,
         RegisterComponent,
-        UnloggedComponent
+        UnloggedComponent,
+        DashboardComponent,
+        CoursesListComponent,
+        CourseCreateComponent,
+        CourseDetailComponent
     ],
     bootstrap: [
         AppComponent
