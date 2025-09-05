@@ -2,14 +2,29 @@
 
 html, body {
   height: 100%;
-  background-color: rgb(27, 26, 27);
-  color: rgb(221, 221, 221);
+  background-color: var(--background-color);
+  color: rgb(6, 7, 7);
   margin: 0;
   font-family: 'Poppins', sans-serif;
 }
 
 * {
   font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-icon {
+  font-family: 'Material Icons' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;  // optional, default size
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
 
 .mat-typography,
@@ -26,21 +41,24 @@ html, body {
 }
 
 :root {
-    // 0E2148
-    // 483AA0
-    // 7965C1
-    // E3D095
-    --primary-color: #4b36d0;
-    --secondary-color: #E3D095;
+  //#3265d2
+  //#9c94e7
+  //#7d66de
+  // testo: #080418
+    --primary-color: #3265d2;
+    --secondary-color: #9c94e7;
+    --terciary-color: #7d66de;
+    --text-color: #080418;
+    --background-color: rgb(240, 240, 240);
   @include mat.button-overrides((
     // filled button
     filled-container-color: var(--primary-color),
-    filled-label-text-color: rgb(225, 225, 218),
+    filled-label-text-color: rgb(255, 255, 255),
     filled-hover-state-layer-opacity: 0.12,
     filled-container-height: 56px,
 
-    outlined-outline-color: #E3D095,
-    outlined-label-text-color: #E3D095,
+    outlined-outline-color: #dad1e0,
+    outlined-label-text-color: var(--text-color),
     outlined-hover-state-layer-opacity: 0.12,
     outlined-container-height: 56px,
     
