@@ -14,7 +14,7 @@
       </mat-card-content>
       
       <mat-card-actions>
-        <button mat-flat-button color="primary" class="course-button" [routerLink]="['/course', course.id]">
+        <button mat-flat-button color="primary" class="course-button" [routerLink]="['/Course', course.id]">
           {{ course.progress > 0 && course.progress < 100 ? 'Continue Learning' : 
              course.progress === 100 ? 'Review Course' : 'Start Course' }}
         </button>

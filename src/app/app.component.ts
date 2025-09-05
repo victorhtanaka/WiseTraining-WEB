@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         const hiddenHeaderRoutes = ['/', '/Login', '/Register', '/Unlogged'];
-        this.showHeader = !hiddenHeaderRoutes.includes(event.url);
+        this.showHeader = !hiddenHeaderRoutes.includes(event.urlAfterRedirects || event.url);
       });
   }
 

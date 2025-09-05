@@ -48,29 +48,27 @@ export class RegisterComponent {
       this.registerForm.markAllAsTouched();
       return;
     }
-    console.log(this.registerForm.value as User);
+    
     this.userService.register(this.registerForm.value as User, true).subscribe(
       (res) => {
         this.authService.authenticate(res.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/Dashboard']);
       }
     )
   }
 
   getUsernameError(): string | null {
-    const control = this.registerForm.get('username');
-    if (control?.hasError('required')) return 'Username is required';
-    if (control?.hasError('minlength')) return 'Minimum 3 characters required';
-    if (control?.hasError('pattern')) return 'Only letters, numbers, and underscores are allowed';
+    const control = this.registerForm.get('fullName');
+    if (control?.hasError('required')) return 'Nome de usuário é obrigatório';
+    if (control?.hasError('minlength')) return 'Mínimo 3 caracteres';
     if (control?.hasError('maxlength')) return 'Máximo de 15 caracteres';
     return null;
   }
 
   getPasswordError(): string | null {
-    const control = this.registerForm.get('password');
-    if (control?.hasError('required')) return 'Username is required';
-    if (control?.hasError('minlength')) return 'Minimum 8 characters required';
-    if (control?.hasError('pattern')) return 'nao sei';
+    const control = this.registerForm.get('passwordHash');
+    if (control?.hasError('required')) return 'Senha é obrigatória';
+    if (control?.hasError('minlength')) return 'Mínimo 8 caracteres';
     if (control?.hasError('maxlength')) return 'Máximo de 30 caracteres';
     return null;
   }

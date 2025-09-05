@@ -3,14 +3,14 @@
     <h1>Login</h1>
     <form (ngSubmit)="onSubmit()" class="form" [formGroup]="loginForm">
         <mat-form-field>
-            <mat-label>Nome de usuário</mat-label>
-            <input type="text" matInput formControlName="username">
-            <mat-error *ngIf="getUsernameError()">{{ getUsernameError() }}</mat-error>
+            <mat-label>Email</mat-label>
+            <input type="text" matInput formControlName="email">
+            <mat-error *ngIf="getEmailError()">{{ getEmailError() }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Senha</mat-label>
-            <input type="password" matInput formControlName="password"
+            <input type="password" matInput formControlName="passwordHash"
                 placeholder="Ex. pat@example.com">
             <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
         </mat-form-field>

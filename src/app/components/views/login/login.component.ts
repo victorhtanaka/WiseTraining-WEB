@@ -24,17 +24,14 @@ export class LoginComponent {
     private readonly authService: AuthService
   ) {
     this.loginForm = this.fb.group({
-      username: this.fb.control('', [
+      email: this.fb.control('', [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(15),
-        Validators.pattern(/^\w+$/)
+        Validators.email
       ]),
-      password: this.fb.control('', [
+      passwordHash: this.fb.control('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(30),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)
+        Validators.maxLength(30)
       ])
     });
   }
@@ -47,25 +44,22 @@ export class LoginComponent {
     this.userService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.authService.authenticate(res.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/Dashboard']);
       }
     });
   }
 
-  getUsernameError(): string | null {
-    const control = this.loginForm.get('username');
-    if (control?.hasError('required')) return 'Username is required';
-    if (control?.hasError('minlength')) return 'Minimum 3 characters required';
-    if (control?.hasError('pattern')) return 'Only letters, numbers, and underscores are allowed';
-    if (control?.hasError('maxlength')) return 'Máximo de 15 caracteres';
+  getEmailError(): string | null {
+    const control = this.loginForm.get('email');
+    if (control?.hasError('required')) return 'Email é obrigatório';
+    if (control?.hasError('email')) return 'Email inválido';
     return null;
   }
 
   getPasswordError(): string | null {
-    const control = this.loginForm.get('password');
+    const control = this.loginForm.get('passwordHash');
     if (control?.hasError('required')) return 'A senha é obrigatória';
     if (control?.hasError('minlength')) return 'Mínimo de 8 caracteres';
-    if (control?.hasError('pattern')) return 'nao sei';
     if (control?.hasError('maxlength')) return 'Máximo de 30 caracteres';
     return null;
   }
@@ -75,9 +69,10 @@ export class LoginComponent {
       if (token) {
         this.userService.loginGoogle(token).subscribe((res) => {
           this.authService.authenticate(res.token);
-          this.router.navigate(['/']);
+          this.router.navigate(['/Dashboard']);
         });
       }
     });
   }
 }
+

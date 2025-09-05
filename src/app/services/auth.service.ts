@@ -31,16 +31,6 @@ export class AuthService {
     this.router.navigate(['/Unlogged']);
   }
 
-  /* private setUserFromToken(token: string) {
-    try {
-      const decoded = jwtDecode<JwtUser>(token);
-      this.currentUser = decoded;
-    } catch (e) {
-      console.error('Failed to decode JWT token:', e);
-      this.currentUser = null;
-    }
-  } */
-
   private isTokenValid(token: string): boolean {
     try {
       const decoded = jwtDecode<JwtUser>(token);
@@ -50,16 +40,13 @@ export class AuthService {
     }
   }
 
-  getUser(): JwtUser | null {
-    return this.currentUser;
-  }
-
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
   isAuthenticated(): boolean {
     const token = this.getToken();
+    
     return !!token && this.isTokenValid(token);
   }
 

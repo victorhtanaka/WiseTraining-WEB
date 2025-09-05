@@ -5,10 +5,10 @@ import { UserCourse } from './user-course.model';
 
 
 export interface User extends Base {
-  email: string;
-  fullName: string;
-  passwordHash: string;
-  roleId: number;
+  email?: string;
+  fullName?: string;
+  passwordHash?: string;
+  roleId?: number;
   role?: Role;
   enrollments?: UserCourse[];
   groups?: Group[];

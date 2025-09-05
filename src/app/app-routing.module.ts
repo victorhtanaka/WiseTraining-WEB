@@ -7,15 +7,16 @@ import { DashboardComponent } from './components/views/dashboard/dashboard.compo
 import { CoursesListComponent } from './components/views/courses-list/courses-list.component';
 import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },
   { path: 'Login', component: LoginComponent },
   { path: 'Register', component: RegisterComponent },
-  { path: 'Dashboard', component: DashboardComponent },
-  { path: 'Courses', component: CoursesListComponent },
-  { path: 'Courses/Create', component: CourseCreateComponent },
-  { path: 'Course/:courseId', component: CourseDetailComponent },
+  { path: 'Dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'Courses', component: CoursesListComponent, canActivate: [AuthGuard] },
+  { path: 'Courses/Create', component: CourseCreateComponent, canActivate: [AuthGuard] },
+  { path: 'Course/:courseId', component: CourseDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 
