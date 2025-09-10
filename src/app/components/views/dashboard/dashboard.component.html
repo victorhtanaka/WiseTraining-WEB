@@ -2,6 +2,8 @@
   <h1 class="dashboard-title">My Training</h1>
   
   <div class="courses-grid">
+    <!-- Reuso de componentes da biblioteca Angular Material na confecção de páginas -->
+     <!-- Exemplo: <mat-card> </mat-card> <mat-dialog-close> </mat-dialog-close> -->
     <mat-card *ngFor="let course of courses" class="course-card">
       <img mat-card-image [src]="course.image" [alt]="course.title" class="course-image">
       
