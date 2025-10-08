@@ -20,6 +20,7 @@
                     <input type="password" matInput formControlName="passwordHash" placeholder="Ex. pat@example.com">
                     <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
                 </mat-form-field>
+                <mat-checkbox>Li e concordo com os termos e condições</mat-checkbox>
                 <button type="submit" mat-stroked-button style="background-color: var(--primary-color); color: white;">Criar conta</button>
             </form>
         </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-course-create',
@@ -11,6 +11,16 @@ export class CourseCreateComponent implements OnInit {
   courseForm: FormGroup;
   aiAssistForm: FormGroup;
   suggestion: any = null;
+  getMediaGroup(content: AbstractControl): FormGroup {
+    return content.get('media') as FormGroup;
+  }
+
+  get contents(): FormArray {
+    return this.courseForm.get('contents') as FormArray;
+  }
+  get media(): FormGroup {
+    return this.courseForm.get('media') as FormGroup;
+  }
 
   constructor(private fb: FormBuilder) { }
 
@@ -18,7 +28,15 @@ export class CourseCreateComponent implements OnInit {
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      keywords: ['']
+      keywords: [''],
+      duration: [0, [Validators.required, Validators.min(1)]],
+      price: [0, [Validators.required, Validators.min(0)]],
+      language: [''],
+      media: this.fb.group({
+        url: ['', Validators.required],
+        type: ['', Validators.required]
+      }),
+      contents: this.fb.array([])
     });
 
     this.aiAssistForm = this.fb.group({
@@ -27,32 +45,36 @@ export class CourseCreateComponent implements OnInit {
     });
   }
 
-  onSubmitAiAssist() {
-    /* if (this.aiAssistForm.valid) {
-      // Simulate AI suggestion
-      const topic = this.aiAssistForm.get('topic').value;
-      
-      setTimeout(() => {
-        this.suggestion = {
-          title: `Master ${topic}`,
-          description: `A comprehensive course covering all aspects of ${topic} for professionals looking to enhance their skills.`,
-          keywords: `${topic}, professional, skills, training`
-        };
-        
-        this.courseForm.patchValue(this.suggestion);
-      }, 1500);
-    } */
+  addContent() {
+    this.contents.push(this.fb.group({
+      order: [this.contents.length + 1, Validators.required],
+      title: ['', Validators.required],
+      textContent: [''],
+      duration: [0, [Validators.required, Validators.min(1)]],
+      media: this.fb.group({
+        url: [''],
+        type: ['']
+      })
+    }));
+  }
+
+  removeContent(index: number) {
+    this.contents.removeAt(index);
   }
 
   onSaveCourse() {
     if (this.courseForm.valid) {
-      console.log('Course saved:', this.courseForm.value);
-      // Add logic to save course
+      // TODO: Implement save logic
+      const courseData = this.courseForm.value;
+      console.log('Course data:', courseData);
     }
   }
 
   onDiscardCourse() {
     this.courseForm.reset();
     this.suggestion = null;
+    while (this.contents.length) {
+      this.contents.removeAt(0);
+    }
   }
 }
