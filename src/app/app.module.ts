@@ -54,6 +54,7 @@ import { DashboardComponent } from './components/views/dashboard/dashboard.compo
 import { CoursesListComponent } from './components/views/courses-list/courses-list.component';
 import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
+import { CompanyRegisterComponent } from './components/company-register/company-register.component';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,8 @@ import { CourseDetailComponent } from './components/views/course-detail/course-d
         DashboardComponent,
         CoursesListComponent,
         CourseCreateComponent,
-        CourseDetailComponent
+        CourseDetailComponent,
+        CompanyRegisterComponent
     ],
     bootstrap: [
         AppComponent

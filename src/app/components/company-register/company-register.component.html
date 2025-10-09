@@ -1,0 +1,32 @@
+<div class="register">
+    <div class="register-container">
+        <div class="register-left">
+            <div class="register-header">
+                <span class="fs-2 fw-medium">Cadastrar Empresa</span>
+                <h3 class="fs-6" style="color: rgb(140, 140, 140);">Preencha suas informações para criar uma conta</h3>
+            </div>
+            <form class="register-form" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                <mat-form-field>
+                    <mat-label>Nome de usuário</mat-label>
+                    <input type="text" matInput formControlName="fullName">
+                    <mat-error *ngIf="getUsernameError()">{{ getUsernameError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput formControlName="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Senha</mat-label>
+                    <input type="password" matInput formControlName="passwordHash" placeholder="Ex. pat@example.com">
+                    <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
+                </mat-form-field>
+                <mat-checkbox>Li e concordo com os termos e condições</mat-checkbox>
+                <button type="submit" mat-stroked-button style="background-color: var(--primary-color); color: white;">Criar conta</button>
+            </form>
+        </div>
+        <div class="register-image">
+            <img src="assets/images/studying.jpg" alt="Register Image">
+
+        </div>
+    </div>
+</div>

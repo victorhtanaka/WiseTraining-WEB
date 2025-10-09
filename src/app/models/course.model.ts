@@ -15,6 +15,7 @@ export interface Course extends Base {
   company?: Company;
   duration: number;
   price: number;
+  isPublished: boolean;
   categoryId: number;
   category?: Category;
   language?: string;

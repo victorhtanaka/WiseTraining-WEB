@@ -1,20 +1,17 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators, FormBuilder } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
-  standalone: false
+  selector: 'app-company-register',
+  standalone: false,
+  templateUrl: './company-register.component.html',
+  styleUrls: ['./company-register.component.scss']
 })
-
-export class RegisterComponent {
-
+export class CompanyRegisterComponent {
   registerForm: FormGroup;
 
   constructor(
@@ -48,9 +45,9 @@ export class RegisterComponent {
       this.registerForm.markAllAsTouched();
       return;
     }
-    
-    this.userService.register(this.registerForm.value as User, false).subscribe(
-      (res) => {
+
+    this.userService.register(this.registerForm.value as User, true).subscribe(
+      (res: { token: string }) => {
         this.authService.authenticate(res.token);
         this.router.navigate(['/Dashboard']);
       }

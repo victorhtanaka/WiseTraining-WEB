@@ -8,11 +8,12 @@ import { CoursesListComponent } from './components/views/courses-list/courses-li
 import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CompanyRegisterComponent } from './components/company-register/company-register.component';
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },
   { path: 'Login', component: LoginComponent },
-  { path: 'Register', component: RegisterComponent },
+  { path: 'CompanyRegister', component: CompanyRegisterComponent },
   { path: 'Dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'Courses', component: CoursesListComponent, canActivate: [AuthGuard] },
   { path: 'Courses/Create', component: CourseCreateComponent, canActivate: [AuthGuard] },
