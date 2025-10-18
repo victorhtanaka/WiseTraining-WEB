@@ -9,12 +9,22 @@ import { CourseCreateComponent } from './components/views/course-create/course-c
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CompanyRegisterComponent } from './components/company-register/company-register.component';
+import { UserProfileComponent } from './components/views/user-profile/user-profile.component';
+import { UsersListComponent } from './components/views/users-list/users-list.component';
+import { CategoriesListComponent } from './components/views/categories-list/categories-list.component';
+import { CompaniesListComponent } from './components/views/companies-list/companies-list.component';
+import { GroupsListComponent } from './components/views/groups-list/groups-list.component';
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },
   { path: 'Login', component: LoginComponent },
   { path: 'CompanyRegister', component: CompanyRegisterComponent },
   { path: 'Dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'Profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'Users', component: UsersListComponent, canActivate: [AuthGuard] },
+  { path: 'Categories', component: CategoriesListComponent, canActivate: [AuthGuard] },
+  { path: 'Companies', component: CompaniesListComponent, canActivate: [AuthGuard] },
+  { path: 'Groups', component: GroupsListComponent, canActivate: [AuthGuard] },
   { path: 'Courses', component: CoursesListComponent, canActivate: [AuthGuard] },
   { path: 'Courses/Create', component: CourseCreateComponent, canActivate: [AuthGuard] },
   { path: 'Course/:courseId', component: CourseDetailComponent, canActivate: [AuthGuard] },

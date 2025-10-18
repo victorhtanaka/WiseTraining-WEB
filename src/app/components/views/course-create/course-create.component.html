@@ -4,15 +4,23 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
     <h1 class="title">New Course</h1>
-    <div class="status-badge">Draft</div>
+    <div class="status-badge" [ngClass]="{'published': courseForm.get('isPublished')?.value}">
+      {{ courseForm.get('isPublished')?.value ? 'Published' : 'Draft' }}
+    </div>
     <div class="spacer"></div>
     <div class="actions">
-      <button mat-stroked-button (click)="onDiscardCourse()">Discard</button>
-      <button mat-flat-button color="primary" (click)="onSaveCourse()">Save Course</button>
+      <button mat-stroked-button (click)="onDiscardCourse()" [disabled]="isLoading">
+        Discard
+      </button>
+      <button mat-flat-button color="primary" (click)="onSaveCourse()" [disabled]="isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+        {{ isLoading ? 'Saving...' : 'Save Course' }}
+      </button>
     </div>
   </div>
 
   <div class="content-layout">
+    <!-- COLUNA PRINCIPAL -->
     <div class="main-column">
       <mat-card class="card">
         <mat-card-header>
@@ -27,120 +35,187 @@
                 <input matInput formControlName="title" placeholder="e.g. Advanced Project Management">
               </mat-form-field>
             </div>
+
             <div class="form-field">
               <mat-label>Description</mat-label>
               <mat-form-field appearance="outline" class="full-width">
-                <textarea matInput formControlName="description" rows="5" placeholder="A short, engaging summary of what learners will achieve."></textarea>
+                <textarea matInput formControlName="description" rows="4"
+                  placeholder="A short, engaging summary of what learners will achieve."></textarea>
               </mat-form-field>
             </div>
+
             <div class="form-field">
-              <mat-label>Keywords</mat-label>
+              <mat-label>Category</mat-label>
               <mat-form-field appearance="outline" class="full-width">
-                <input matInput formControlName="keywords" placeholder="e.g. agile, scrum, leadership">
+                <mat-select formControlName="categoryId" placeholder="Select category">
+                  <mat-option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
+
+            <div class="form-field">
+              <mat-label>Tags</mat-label>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-select formControlName="tagIds" multiple placeholder="Select tags">
+                  <mat-option *ngFor="let t of tags" [value]="t.id">{{ t.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
             <div class="form-field">
               <mat-label>Duration (minutes)</mat-label>
               <mat-form-field appearance="outline" class="full-width">
                 <input matInput type="number" formControlName="duration" min="1" placeholder="Course duration">
               </mat-form-field>
             </div>
+
             <div class="form-field">
               <mat-label>Price (R$)</mat-label>
               <mat-form-field appearance="outline" class="full-width">
                 <input matInput type="number" formControlName="price" min="0" placeholder="Course price">
               </mat-form-field>
             </div>
+
             <div class="form-field">
               <mat-label>Language</mat-label>
               <mat-form-field appearance="outline" class="full-width">
                 <input matInput formControlName="language" placeholder="e.g. Português, English">
               </mat-form-field>
             </div>
+
+            <!-- CONTEÚDOS -->
             <div class="form-field">
               <mat-label>Course Contents</mat-label>
               <div formArrayName="contents">
                 <div *ngFor="let content of contents.controls; let i = index" [formGroupName]="i" class="content-item">
                   <mat-card class="card">
+                    <div class="content-header">
+                      <button mat-icon-button color="warn" (click)="removeContent(i)" type="button"
+                        title="Remove content">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
                     <div class="form-field">
                       <mat-label>Order</mat-label>
                       <mat-form-field appearance="outline" class="full-width">
                         <input matInput type="number" formControlName="order" min="1">
                       </mat-form-field>
                     </div>
+
                     <div class="form-field">
                       <mat-label>Title</mat-label>
                       <mat-form-field appearance="outline" class="full-width">
                         <input matInput formControlName="title" placeholder="Content title">
                       </mat-form-field>
                     </div>
+
                     <div class="form-field">
                       <mat-label>Text Content</mat-label>
                       <mat-form-field appearance="outline" class="full-width">
-                        <textarea matInput formControlName="textContent" rows="3" placeholder="Content text"></textarea>
+                        <textarea matInput formControlName="textContent" rows="3"></textarea>
                       </mat-form-field>
                     </div>
+
                     <div class="form-field">
                       <mat-label>Duration (minutes)</mat-label>
                       <mat-form-field appearance="outline" class="full-width">
                         <input matInput type="number" formControlName="duration" min="1">
                       </mat-form-field>
                     </div>
+
                     <div class="form-field">
-                      <mat-label>Media</mat-label>
-                      <div [formGroup]="getMediaGroup(content)">
-                        <mat-form-field appearance="outline" class="full-width">
-                          <input matInput formControlName="url" placeholder="Media URL">
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="full-width">
-                          <input matInput formControlName="type" placeholder="Media type (e.g. video, image)">
-                        </mat-form-field>
-                      </div>
+                      <mat-card class="card">
+                        <mat-card-header>
+                          <mat-card-title>Course Media</mat-card-title>
+                          <mat-card-subtitle>Upload or select a cover image or video for your
+                            course.</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="upload-container" (click)="fileInput.click()">
+                            <ng-container *ngIf="!previewUrl; else preview">
+                              <mat-icon>cloud_upload</mat-icon>
+                              <span>Click to upload a file</span>
+                            </ng-container>
+
+                            <ng-template #preview>
+                              <div class="preview">
+                                <img *ngIf="isImageFile()" [src]="previewUrl" alt="Preview" />
+                                <video *ngIf="isVideoFile()" [src]="previewUrl" controls></video>
+                                <p *ngIf="!isImageFile() && !isVideoFile()">
+                                  {{ uploadedFile?.name }}
+                                </p>
+                              </div>
+                            </ng-template>
+                          </div>
+
+                          <input #fileInput type="file" (change)="onFileSelected($event)" hidden
+                            accept="image/*,video/*,application/pdf" />
+
+                          <div [formGroup]="media" class="form-field" *ngIf="uploadedFile">
+                            <mat-form-field appearance="outline" class="full-width">
+                              <input matInput formControlName="type" placeholder="File type (e.g. image, video)" />
+                            </mat-form-field>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
                     </div>
-                    <button mat-icon-button color="warn" (click)="removeContent(i)" type="button" title="Remove content">
-                      <mat-icon>delete</mat-icon>
-                    </button>
                   </mat-card>
                 </div>
-                <button mat-stroked-button color="primary" (click)="addContent()" type="button">Add Content</button>
+                <button mat-stroked-button color="primary" (click)="addContent()" type="button">
+                  Add Content
+                </button>
               </div>
             </div>
           </form>
         </mat-card-content>
       </mat-card>
     </div>
-    
+
+    <!-- SIDEBAR -->
     <div class="sidebar-column">
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Course Status</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="form-field">
-            <mat-label>Status</mat-label>
-            <button mat-stroked-button class="full-width text-left">
-              Draft
-            </button>
-          </div>
+          <mat-slide-toggle formControlName="isPublished">Published</mat-slide-toggle>
         </mat-card-content>
       </mat-card>
-      
+
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Course Media</mat-card-title>
-          <mat-card-subtitle>Upload or link a cover image or video for your course.</mat-card-subtitle>
+          <mat-card-subtitle>Upload or select a cover image or video for your course.</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <div [formGroup]="media">
+          <div class="upload-container" (click)="fileInput.click()">
+            <ng-container *ngIf="!previewUrl; else preview">
+              <mat-icon>cloud_upload</mat-icon>
+              <span>Click to upload a file</span>
+            </ng-container>
+
+            <ng-template #preview>
+              <div class="preview">
+                <img *ngIf="isImageFile()" [src]="previewUrl" alt="Preview" />
+                <video *ngIf="isVideoFile()" [src]="previewUrl" controls></video>
+                <p *ngIf="!isImageFile() && !isVideoFile()">
+                  {{ uploadedFile?.name }}
+                </p>
+              </div>
+            </ng-template>
+          </div>
+
+          <input #fileInput type="file" (change)="onFileSelected($event)" hidden
+            accept="image/*,video/*,application/pdf" />
+
+          <div [formGroup]="media" class="form-field" *ngIf="uploadedFile">
             <mat-form-field appearance="outline" class="full-width">
-              <input matInput formControlName="url" placeholder="Media URL">
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-              <input matInput formControlName="type" placeholder="Media type (e.g. image, video)">
+              <input matInput formControlName="type" placeholder="File type (e.g. image, video)" />
             </mat-form-field>
           </div>
         </mat-card-content>
       </mat-card>
+
     </div>
   </div>
 

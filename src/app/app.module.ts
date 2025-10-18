@@ -52,9 +52,19 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { DashboardComponent } from './components/views/dashboard/dashboard.component';
 import { CoursesListComponent } from './components/views/courses-list/courses-list.component';
-import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 import { CompanyRegisterComponent } from './components/company-register/company-register.component';
+import { CourseCreateComponent } from './components/views/course-create/course-create.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { UserProfileComponent } from './components/views/user-profile/user-profile.component';
+import { UsersListComponent } from './components/views/users-list/users-list.component';
+import { UserFormDialogComponent } from './components/views/users-list/user-form-dialog/user-form-dialog.component';
+import { CategoriesListComponent } from './components/views/categories-list/categories-list.component';
+import { CategoryFormDialogComponent } from './components/views/categories-list/category-form-dialog/category-form-dialog.component';
+import { CompaniesListComponent } from './components/views/companies-list/companies-list.component';
+import { CompanyFormDialogComponent } from './components/views/companies-list/company-form-dialog/company-form-dialog.component';
+import { GroupsListComponent } from './components/views/groups-list/groups-list.component';
+import { GroupFormDialogComponent } from './components/views/groups-list/group-form-dialog/group-form-dialog.component';
 
 @NgModule({
     declarations: [
@@ -68,7 +78,16 @@ import { CompanyRegisterComponent } from './components/company-register/company-
         CoursesListComponent,
         CourseCreateComponent,
         CourseDetailComponent,
-        CompanyRegisterComponent
+        CompanyRegisterComponent,
+        UserProfileComponent,
+        UsersListComponent,
+        UserFormDialogComponent,
+        CategoriesListComponent,
+        CategoryFormDialogComponent,
+        CompaniesListComponent,
+        CompanyFormDialogComponent,
+        GroupsListComponent,
+        GroupFormDialogComponent
     ],
     bootstrap: [
         AppComponent
@@ -114,7 +133,8 @@ import { CompanyRegisterComponent } from './components/company-register/company-
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
-        MatStepperModule
+        MatStepperModule,
+        DragDropModule
     ],
     providers: [
         provideFirebaseApp(() => initializeApp(environment.firebase)),

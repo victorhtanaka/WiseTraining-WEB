@@ -14,13 +14,6 @@ export class UserService extends BaseService<User> {
     super(http, `User`);
   }
 
-  protected override httpOptions = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json'
-    }),
-  };
-
   register(user: User, isCompany: boolean): Observable<any> {
     return this.http.post(`${environment.apiUri}/User/Register?isCompany=${isCompany}`, user, this.httpOptions);
   }
@@ -35,6 +28,7 @@ export class UserService extends BaseService<User> {
   }
 
   getAuthenticatedUser(): Observable<User> {
+    this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${localStorage.getItem('token')}`);
     return this.http.get<User>(`${environment.apiUri}/User/GetAuthenticatedUser`, this.httpOptions);
   }
 }

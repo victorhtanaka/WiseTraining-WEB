@@ -1,0 +1,25 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+mat-card {
+  padding: 2rem;
+}
+
+mat-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}

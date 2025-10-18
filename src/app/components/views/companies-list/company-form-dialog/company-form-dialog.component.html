@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Company' : 'Add Company' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="companyForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text">
+      <mat-error *ngIf="companyForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+      <mat-error *ngIf="companyForm.get('name')?.hasError('maxlength')">
+        Name must not exceed 100 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Domain</mat-label>
+      <input matInput formControlName="domain" type="text" placeholder="example.com">
+      <mat-error *ngIf="companyForm.get('domain')?.hasError('maxlength')">
+        Domain must not exceed 50 characters
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!companyForm.valid">
+    {{ isEditMode ? 'Update' : 'Create' }}
+  </button>
+</mat-dialog-actions>
