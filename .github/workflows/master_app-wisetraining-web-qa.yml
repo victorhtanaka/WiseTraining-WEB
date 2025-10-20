@@ -1,76 +1,54 @@
-name: Build and Deploy WiseTraining API
+name: Build and deploy ASP.Net Core API to Azure Web App - app-wisetraining-web-qa
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    permissions:
+      contents: read
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore WISETRAINING.API.sln
-      
-    - name: Build
-      run: dotnet build WISETRAINING.API.sln --no-restore --configuration Release
-      
-    - name: Test
-      run: dotnet test WISETRAINING.API.sln --no-build --verbosity normal --configuration Release
-      
-    - name: Publish
-      run: dotnet publish WISETRAINING.API/WISETRAINING.API.csproj -c Release -o publish
-      
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: api-build
-        path: publish/**
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore WISETRAINING.API.sln
+
+      - name: Build solution
+        run: dotnet build WISETRAINING.API.sln --configuration Release --no-restore
+
+      - name: Publish API project
+        run: dotnet publish WISETRAINING.API/WISETRAINING.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/publish"
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: wisetraining-api
+          path: ${{env.DOTNET_ROOT}}/publish
 
   deploy:
     runs-on: windows-latest
     needs: build
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    environment:
-      name: 'Production'
-      
+
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: api-build
-        path: publish
-        
-    # Deployment steps depend on your hosting environment. Below are placeholders
-    # for common deployment scenarios. You'll need to customize this section.
-    
-    # Example for Azure App Service deployment
-    - name: Deploy to Azure Web App
-      id: deploy-to-azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'WiseTrainingAPI' # Replace with your Azure App Service name
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} # You'll need to add this secret in GitHub
-        package: publish
-    
-    # Alternatively, for other hosting environments, you might use SSH or FTP
-    
-    # - name: Set up SSH
-    #   uses: webfactory/ssh-agent@v0.5.4
-    #   with:
-    #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #
-    # - name: Deploy via SSH
-    #   run: |
-    #     scp -r publish/* user@your-server:/path/to/deployment/
+      - name: Download published artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: wisetraining-api
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-wisetraining-web-qa'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C57C9CA4890C44E69695F0CA27550979 }}
+          package: .
