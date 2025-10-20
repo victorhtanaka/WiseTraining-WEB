@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nome do Grupo</mat-label>
+      <input matInput formControlName="name" placeholder="Nome do grupo">
+      <mat-error *ngIf="groupForm.get('name')?.hasError('required')">
+        Nome do grupo é obrigatório
+      </mat-error>
+      <mat-error *ngIf="groupForm.get('name')?.hasError('maxlength')">
+        Nome do grupo deve ter no máximo 100 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description" placeholder="Descrição do grupo" rows="3"></textarea>
+      <mat-error *ngIf="groupForm.get('description')?.hasError('maxlength')">
+        Descrição deve ter no máximo 200 caracteres
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="groupForm.invalid">Salvar</button>
+  </mat-dialog-actions>
+</form>

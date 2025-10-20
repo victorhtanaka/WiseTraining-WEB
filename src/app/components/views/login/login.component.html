@@ -1,27 +1,29 @@
 <div class="gradient-line"></div>
-<div class="d-flex w-100" style="background-color: black;">
-    <div>
-        
-    </div>
-    <div>
-
-    </div>
-</div>
 <div class="login-container">
-    <h1>Login</h1>
-    <form (ngSubmit)="onSubmit()" class="form" [formGroup]="loginForm">
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input type="text" matInput formControlName="email">
-            <mat-error *ngIf="getEmailError()">{{ getEmailError() }}</mat-error>
-        </mat-form-field>
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to your WiseTraining account</p>
+        </div>
+        <form (ngSubmit)="onSubmit()" class="form" [formGroup]="loginForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input type="text" matInput formControlName="email">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error *ngIf="getEmailError()">{{ getEmailError() }}</mat-error>
+            </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Senha</mat-label>
-            <input type="password" matInput formControlName="passwordHash"
-                placeholder="Ex. pat@example.com">
-            <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
-        </mat-form-field>
-        <button type="submit" mat-stroked-button>Fazer login</button>
-    </form>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="passwordHash">
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="getPasswordError()">{{ getPasswordError() }}</mat-error>
+            </mat-form-field>
+            
+            <div class="form-actions">
+                <button type="submit" mat-flat-button color="primary">Sign In</button>
+                <a routerLink="/" class="back-link">Back to Home</a>
+            </div>
+        </form>
+    </div>
 </div>

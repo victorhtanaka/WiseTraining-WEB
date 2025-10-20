@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Confirmar Exclusão</h2>
+<mat-dialog-content>
+  <p *ngIf="!data.message">Tem certeza que deseja excluir o grupo <strong>{{ data.group.name }}</strong>?</p>
+  <p *ngIf="data.message">{{ data.message }}</p>
+  
+  <div *ngIf="data.isAdminGroup" class="warning-message">
+    <mat-icon color="warn">warning</mat-icon>
+    <span>Não é possível excluir o grupo Admin pois ele é essencial para o funcionamento da aplicação.</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="warn" (click)="onConfirm()" [disabled]="data.isAdminGroup">Excluir</button>
+</mat-dialog-actions>

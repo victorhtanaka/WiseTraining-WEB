@@ -5,6 +5,7 @@ export interface JwtUser {
   role: string;
   exp: number;
   username: string;
+  companyId?: number;
 }
 
 export class JwtUser implements JwtUser {

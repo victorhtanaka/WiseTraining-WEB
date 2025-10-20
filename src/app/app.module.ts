@@ -63,8 +63,13 @@ import { CategoriesListComponent } from './components/views/categories-list/cate
 import { CategoryFormDialogComponent } from './components/views/categories-list/category-form-dialog/category-form-dialog.component';
 import { CompaniesListComponent } from './components/views/companies-list/companies-list.component';
 import { CompanyFormDialogComponent } from './components/views/companies-list/company-form-dialog/company-form-dialog.component';
-import { GroupsListComponent } from './components/views/groups-list/groups-list.component';
-import { GroupFormDialogComponent } from './components/views/groups-list/group-form-dialog/group-form-dialog.component';
+import { CompanyManagementComponent } from './components/views/company-management/company-management.component';
+import { AddUserDialogComponent } from './components/views/company-management/add-user-dialog/add-user-dialog.component';
+import { GroupDialogComponent } from './components/views/company-management/group-dialog/group-dialog.component';
+import { ConfirmDialogComponent } from './components/views/company-management/confirm-dialog/confirm-dialog.component';
+import { CourseCatalogComponent } from './components/views/course-catalog/course-catalog.component';
+import { CourseDetailsComponent } from './components/views/course-details/course-details.component';
+import { ConfirmDialogComponent as SharedConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
     declarations: [
@@ -86,8 +91,13 @@ import { GroupFormDialogComponent } from './components/views/groups-list/group-f
         CategoryFormDialogComponent,
         CompaniesListComponent,
         CompanyFormDialogComponent,
-        GroupsListComponent,
-        GroupFormDialogComponent
+        CompanyManagementComponent,
+        AddUserDialogComponent,
+        GroupDialogComponent,
+        ConfirmDialogComponent,
+        CourseCatalogComponent,
+        CourseDetailsComponent,
+        SharedConfirmDialogComponent
     ],
     bootstrap: [
         AppComponent
@@ -134,7 +144,8 @@ import { GroupFormDialogComponent } from './components/views/groups-list/group-f
         MatTooltipModule,
         MatTreeModule,
         MatStepperModule,
-        DragDropModule
+        DragDropModule,
+        MatChipsModule
     ],
     providers: [
         provideFirebaseApp(() => initializeApp(environment.firebase)),

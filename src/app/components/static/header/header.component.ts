@@ -1,5 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { SidenavService } from 'src/app/services/sidenav.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -8,9 +10,12 @@ import { SidenavService } from 'src/app/services/sidenav.service';
     standalone: false
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
+  @Output() toggleSidenavEvent = new EventEmitter<void>();
 
   constructor(
-    private sideNav: SidenavService
+    private sideNavService: SidenavService,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngAfterViewInit() {
@@ -20,6 +25,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   toggleSidenav(){
-    this.sideNav.toggle();
+    console.log('Toggle sidenav called from header component');
+    // Don't call both the service and emit an event - this causes double toggle
+    // Just emit the event to let the parent component handle it
+    this.toggleSidenavEvent.emit();
+  }
+  
+  logout(): void {
+    this.authService.logout();
   }
 }

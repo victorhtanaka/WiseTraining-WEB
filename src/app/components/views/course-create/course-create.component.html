@@ -3,7 +3,7 @@
     <button mat-icon-button routerLink="/Courses">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1 class="title">New Course</h1>
+    <h1 class="title">{{ isEditMode ? 'Edit Course' : 'New Course' }}</h1>
     <div class="status-badge" [ngClass]="{'published': courseForm.get('isPublished')?.value}">
       {{ courseForm.get('isPublished')?.value ? 'Published' : 'Draft' }}
     </div>
@@ -14,7 +14,7 @@
       </button>
       <button mat-flat-button color="primary" (click)="onSaveCourse()" [disabled]="isLoading">
         <mat-spinner *ngIf="isLoading" diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
-        {{ isLoading ? 'Saving...' : 'Save Course' }}
+        {{ isLoading ? 'Saving...' : (isEditMode ? 'Update Course' : 'Save Course') }}
       </button>
     </div>
   </div>
@@ -126,29 +126,30 @@
                     <div class="form-field">
                       <mat-card class="card">
                         <mat-card-header>
-                          <mat-card-title>Course Media</mat-card-title>
-                          <mat-card-subtitle>Upload or select a cover image or video for your
-                            course.</mat-card-subtitle>
+                          <mat-card-title>Content Media</mat-card-title>
+                          <mat-card-subtitle>Upload or select an image or video for this content.</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                          <div class="upload-container" (click)="fileInput.click()">
-                            <ng-container *ngIf="!previewUrl; else preview">
+                          <div class="upload-container" (click)="contentFileInput.click()">
+                            <ng-container *ngIf="!getMediaGroup(content).get('url')?.value; else contentPreview">
                               <mat-icon>cloud_upload</mat-icon>
                               <span>Click to upload a file</span>
                             </ng-container>
 
-                            <ng-template #preview>
+                            <ng-template #contentPreview>
                               <div class="preview">
-                                <img *ngIf="isImageFile()" [src]="previewUrl" alt="Preview" />
-                                <video *ngIf="isVideoFile()" [src]="previewUrl" controls></video>
-                                <p *ngIf="!isImageFile() && !isVideoFile()">
-                                  {{ uploadedFile?.name }}
+                                <img *ngIf="getMediaGroup(content).get('type')?.value === 'image'" 
+                                    [src]="getMediaUrl(getMediaGroup(content).get('url')?.value)" alt="Preview" class="preview-image" />
+                                <video *ngIf="getMediaGroup(content).get('type')?.value === 'video'" 
+                                    [src]="getMediaUrl(getMediaGroup(content).get('url')?.value)" controls></video>
+                                <p *ngIf="getMediaGroup(content).get('type')?.value !== 'image' && getMediaGroup(content).get('type')?.value !== 'video'">
+                                  Document File
                                 </p>
                               </div>
                             </ng-template>
                           </div>
 
-                          <input #fileInput type="file" (change)="onFileSelected($event)" hidden
+                          <input #contentFileInput type="file" (change)="onFileSelected($event, i)" hidden
                             accept="image/*,video/*,application/pdf" />
 
                           <div [formGroup]="media" class="form-field" *ngIf="uploadedFile">
@@ -178,7 +179,9 @@
           <mat-card-title>Course Status</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-slide-toggle formControlName="isPublished">Published</mat-slide-toggle>
+          <div [formGroup]="courseForm">
+            <mat-slide-toggle formControlName="isPublished">Published</mat-slide-toggle>
+          </div>
         </mat-card-content>
       </mat-card>
 
@@ -196,7 +199,7 @@
 
             <ng-template #preview>
               <div class="preview">
-                <img *ngIf="isImageFile()" [src]="previewUrl" alt="Preview" />
+                <img *ngIf="isImageFile()" [src]="previewUrl" alt="Preview" class="preview-image" />
                 <video *ngIf="isVideoFile()" [src]="previewUrl" controls></video>
                 <p *ngIf="!isImageFile() && !isVideoFile()">
                   {{ uploadedFile?.name }}
@@ -221,6 +224,6 @@
 
   <div class="mobile-actions">
     <button mat-stroked-button (click)="onDiscardCourse()">Discard</button>
-    <button mat-flat-button color="primary" (click)="onSaveCourse()">Save Course</button>
+    <button mat-flat-button color="primary" (click)="onSaveCourse()">{{ isEditMode ? 'Update Course' : 'Save Course' }}</button>
   </div>
 </div>

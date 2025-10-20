@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private readonly router: Router, private readonly auth: Auth) {
     const token = this.getToken();
     if (token && this.isTokenValid(token)) {
-      /* this.setUserFromToken(token); */
+      this.setUserFromToken(token);
     } else {
       this.logout();
     }
@@ -22,7 +22,16 @@ export class AuthService {
 
   authenticate(token: string) {
     localStorage.setItem(this.tokenKey, token);
-    /* this.setUserFromToken(token); */
+    this.setUserFromToken(token);
+  }
+  
+  private setUserFromToken(token: string) {
+    try {
+      this.currentUser = jwtDecode<JwtUser>(token);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      this.currentUser = null;
+    }
   }
 
   logout() {
@@ -61,5 +70,16 @@ export class AuthService {
   logoutGoogle() {
     const auth = this.auth;
     return signOut(auth);
+  }
+  
+  getCurrentUser(): JwtUser | null {
+    const token = this.getToken();
+    if (token && this.isTokenValid(token)) {
+      if (!this.currentUser) {
+        this.setUserFromToken(token);
+      }
+      return this.currentUser;
+    }
+    return null;
   }
 }

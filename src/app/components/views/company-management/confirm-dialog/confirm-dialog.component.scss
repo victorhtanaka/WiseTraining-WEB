@@ -1,0 +1,12 @@
+.warning-message {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #fff3e0;
+  border-radius: 4px;
+  
+  mat-icon {
+    margin-right: 10px;
+  }
+}

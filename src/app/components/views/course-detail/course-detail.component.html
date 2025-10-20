@@ -1,57 +1,110 @@
-<div class="course-container">
+<div class="course-container" *ngIf="!isLoading && course">
   <div class="course-main">
     <div class="video-container">
-      <div class="video-placeholder">
-        <img src="https://placehold.co/1280x720.png" alt="Course video">
-        <div class="play-button">
+      <div class="media-placeholder" *ngIf="selectedContent && selectedContent.mediaId">
+        <!-- Display media based on type -->
+        <img *ngIf="selectedContent.media && selectedContent.media.type === 'image'" [src]="getMediaUrl(selectedContent.media.url)" alt="Content media" class="content-media">
+        <video #videoElement *ngIf="selectedContent.media && selectedContent.media.type === 'video'" [src]="getMediaUrl(selectedContent.media.url)" controls class="content-media"></video>
+        <div class="play-button" *ngIf="selectedContent.media && selectedContent.media.type === 'video'" (click)="playVideo($event)">
           <mat-icon>play_arrow</mat-icon>
         </div>
+      </div>
+      
+      <!-- Display course thumbnail if no content is selected -->
+      <div class="media-placeholder" *ngIf="(!selectedContent || !selectedContent.mediaId) && course.mediaId && course.media">
+        <img [src]="getMediaUrl(course.media.url)" alt="Course thumbnail" class="course-thumbnail">
+      </div>
+      
+      <!-- Fallback if no media is available -->
+      <div class="media-placeholder no-media" *ngIf="(!selectedContent || !selectedContent.mediaId) && (!course.mediaId || !course.media)">
+        <mat-icon>image</mat-icon>
+        <p>No media available</p>
       </div>
     </div>
 
     <div class="course-info">
-      <h1 class="course-title">{{courseData.title}}</h1>
-      <p class="lesson-title">Lesson 1: What is Agile?</p>
+      <h1 class="course-title">{{course.title}}</h1>
+      <p class="lesson-title" *ngIf="selectedContent">{{selectedContent.title}}</p>
+      <p class="course-meta" *ngIf="course.category">
+        <span class="category">{{course.category.name}}</span>
+        <span class="duration">{{course.duration}} min</span>
+        <span class="language" *ngIf="course.language">{{course.language}}</span>
+      </p>
+      <div class="tags-container" *ngIf="course.tags && course.tags.length > 0">
+        <span class="tag" *ngFor="let tag of course.tags">{{tag.name}}</span>
+      </div>
     </div>
 
-    <div class="lesson-content">
-      <h2>About this lesson</h2>
-      <p>
-        Welcome to the first lesson of our Advanced Project Management course. In this video, we'll dive deep into the core principles of Agile methodology. We will explore its origins, key concepts, and why it has become the gold standard for software development and project management in many industries.
+    <div class="lesson-content" *ngIf="selectedContent">
+      <h2>{{selectedContent.title}}</h2>
+      <div class="content-text" [innerHTML]="selectedContent.textContent"></div>
+      <p class="duration-info">
+        <mat-icon>schedule</mat-icon> {{selectedContent.duration}} minutes
       </p>
-      <p>
-        By the end of this lesson, you will be able to define Agile, understand its benefits over traditional models like Waterfall, and identify situations where an Agile approach is most effective.
-      </p>
+      
+      <div class="content-navigation">
+        <button mat-button (click)="navigateContent('prev')" color="primary">
+          <mat-icon>navigate_before</mat-icon> Previous
+        </button>
+        <button mat-button (click)="navigateContent('next')" color="primary">
+          Next <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <div class="course-description" *ngIf="!selectedContent">
+      <h2>About this course</h2>
+      <div class="description-text" [innerHTML]="course.description"></div>
     </div>
   </div>
 
   <div class="course-sidebar">
     <div class="sidebar-header">
       <h2>Course Content</h2>
-      <span class="completion-status">3/9 Completed</span>
+      <span class="content-count">{{courseContents.length}} items</span>
     </div>
 
-    <mat-accordion class="modules-accordion">
-      <mat-expansion-panel *ngFor="let module of courseData.modules; let i = index" [expanded]="i === 0">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{module.title}}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        
-        <mat-list>
-          <mat-list-item *ngFor="let lesson of module.lessons" class="lesson-item">
-            <mat-icon *ngIf="lesson.completed" class="completed-icon">check_circle</mat-icon>
-            <mat-icon *ngIf="!lesson.completed" class="incomplete-icon">circle</mat-icon>
-            <span class="lesson-title">{{lesson.title}}</span>
-            <span class="lesson-duration">{{lesson.type === 'video' ? '5 min' : '3 min'}}</span>
-          </mat-list-item>
-        </mat-list>
-      </mat-expansion-panel>
-    </mat-accordion>
+    <mat-list class="contents-list">
+      <mat-list-item 
+        *ngFor="let content of courseContents" 
+        class="content-item"
+        [class.active]="selectedContent && selectedContent.id === content.id"
+        (click)="selectContent(content)">
+        <div class="content-item-inner">
+          <div class="content-icon">
+            <mat-icon *ngIf="content.media && content.media.type === 'video'">play_circle_outline</mat-icon>
+            <mat-icon *ngIf="content.media && content.media.type === 'image'">image</mat-icon>
+            <mat-icon *ngIf="!content.media">article</mat-icon>
+          </div>
+          <div class="content-details">
+            <span class="content-title">{{content.title}}</span>
+            <span class="content-duration">{{content.duration}} min</span>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
 
-    <button mat-flat-button color="primary" class="back-button" routerLink="/Dashboard">
-      Back to Dashboard
-    </button>
+    <div class="action-buttons">
+      <button mat-flat-button color="primary" class="back-button" routerLink="/Courses">
+        Back to Courses
+      </button>
+      <button mat-stroked-button [routerLink]="['/Courses/Edit', course.id]" *ngIf="course.id">
+        <mat-icon>edit</mat-icon> Edit Course
+      </button>
+    </div>
   </div>
+</div>
+
+<!-- Loading spinner -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+  <p>Loading course...</p>
+</div>
+
+<!-- No course found message -->
+<div class="not-found-container" *ngIf="!isLoading && !course">
+  <mat-icon class="not-found-icon">error_outline</mat-icon>
+  <h2>Course not found</h2>
+  <p>The course you're looking for could not be found.</p>
+  <button mat-flat-button color="primary" routerLink="/Courses">Back to Courses</button>
 </div>

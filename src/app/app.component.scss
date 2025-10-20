@@ -1,0 +1,125 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-container {
+  flex: 1;
+  height: 100vh;
+  
+  &.has-header {
+    padding-top: 64px;
+    height: calc(100vh - 64px);
+  }
+}
+
+.sidenav-container {
+  width: 100%;
+  height: 100%;
+}
+
+.sidenav {
+  width: 280px;
+  background: white;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(90deg, rgba(94, 87, 199, 0.05) 0%, rgba(127, 48, 184, 0.05) 100%);
+}
+
+.sidenav-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, rgba(94, 87, 199, 1) 0%, rgba(127, 48, 184, 1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sidenav-section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 16px 16px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.content-container {
+  height: 100%;
+  overflow: auto;
+  background-color: #f9f9fb;
+}
+
+mat-nav-list {
+  padding: 8px 0;
+}
+
+mat-nav-list a {
+  height: 48px;
+  margin: 4px 8px;
+  border-radius: 8px;
+  
+  mat-icon {
+    margin-right: 12px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  &:hover {
+    background-color: rgba(94, 87, 199, 0.05);
+  }
+}
+
+.active-link {
+  background: linear-gradient(90deg, rgba(94, 87, 199, 0.1) 0%, rgba(127, 48, 184, 0.1) 100%);
+  color: rgba(94, 87, 199, 1);
+  
+  mat-icon {
+    color: rgba(94, 87, 199, 1);
+  }
+}
+
+.sidenav-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  
+  button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+mat-divider {
+  margin: 8px 0;
+}
+
+/* Para dispositivos móveis */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 80%;
+  }
+  
+  .main-container.has-header {
+    padding-top: 56px;
+    height: calc(100vh - 56px);
+  }
+}

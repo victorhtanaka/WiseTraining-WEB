@@ -2,42 +2,68 @@
   <div class="gradient-line"></div>
   
   <header class="header">
-    <span class="logo">WiseTraining</span>
+    <div class="logo-container">
+      <span class="logo">WiseTraining</span>
+    </div>
     <div class="header-actions">
-      <button mat-stroked-button routerLink="/Login">Sign In</button>
-      <button mat-flat-button routerLink="/CompanyRegister">Get Started</button>
+      <button mat-stroked-button class="login-button" routerLink="/Login">Sign In</button>
+      <button mat-flat-button class="register-button" routerLink="/CompanyRegister">Get Started</button>
     </div>
   </header>
   
   <main class="main-content">
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Discover new skills</h1>
+        <div class="hero-badge">Learning Platform</div>
+        <h1 class="hero-title">Elevate Your Team's Skills</h1>
         <p class="hero-description">
-          WiseTraining is a comprehensive platform for creating, managing, and delivering effective training content for your organization.
+          WiseTraining is a powerful platform for creating, managing, and delivering effective training content that transforms how your organization learns and grows.
         </p>
         <div class="hero-actions">
-          <button mat-flat-button routerLink="/CompanyRegister">Create Account</button>
+          <button mat-flat-button class="primary-button" routerLink="/CompanyRegister">Create Account</button>
+          <button mat-stroked-button class="secondary-button" routerLink="/Login">Existing User</button>
         </div>
       </div>
       <div class="hero-image">
-        <img style="filter: grayscale(100%);" src="assets/images/studying.jpg" alt="Learning illustration">
+        <img src="assets/images/studying.jpg" alt="Learning illustration">
       </div>
     </section>
     
     <section class="features">
-      <h2 class="section-title">Key Features</h2>
+      <div class="section-header">
+        <h2 class="section-title">Powerful Platform Features</h2>
+        <p class="section-subtitle">Everything you need to transform your organization's learning experience</p>
+      </div>
       <div class="features-grid">
         <div class="feature-card" *ngFor="let feature of features">
-          <mat-icon class="feature-icon">{{feature.icon}}</mat-icon>
+          <div class="feature-icon-container">
+            <mat-icon class="feature-icon">{{feature.icon}}</mat-icon>
+          </div>
           <h3 class="feature-title">{{feature.title}}</h3>
           <p class="feature-description">{{feature.description}}</p>
         </div>
       </div>
     </section>
+    
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Ready to transform your team's learning experience?</h2>
+        <p>Join thousands of companies already using WiseTraining to develop their teams.</p>
+        <button mat-flat-button class="cta-button" routerLink="/CompanyRegister">Get Started Today</button>
+      </div>
+    </section>
   </main>
   
   <footer class="footer">
-    <p>&copy; 2025 WiseTraining. All rights reserved.</p>
+    <div class="footer-content">
+      <div class="footer-logo">WiseTraining</div>
+      <div class="footer-links">
+        <a href="#">About Us</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+      </div>
+      <p class="copyright">&copy; 2025 WiseTraining. All rights reserved.</p>
+    </div>
   </footer>
 </div>

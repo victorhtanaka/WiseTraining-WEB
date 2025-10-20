@@ -1,8 +1,35 @@
-<mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <button mat-button style="font-size: 20px;" routerLink="/Dashboard">Wise Training</button>
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="header-left">
+    <button mat-icon-button (click)="toggleSidenav()" aria-label="Menu" class="menu-button">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a routerLink="/Dashboard" class="logo-container">
+      <span class="logo">WiseTraining</span>
+    </a>
+  </div>
   <span class="spacer"></span>
-  <button mat-raised-button routerLink="/Courses">Lista de cursos</button>
+  <div class="header-actions">
+    <button mat-button routerLink="/Courses" class="header-action-button">
+      <mat-icon>school</mat-icon>
+      <span>Courses</span>
+    </button>
+    <button mat-button routerLink="/Profile" class="header-action-button">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item routerLink="/Profile">
+        <mat-icon>person</mat-icon>
+        <span>My Profile</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Sign Out</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>

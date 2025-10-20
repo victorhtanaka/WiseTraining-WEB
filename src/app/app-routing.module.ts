@@ -8,12 +8,15 @@ import { CoursesListComponent } from './components/views/courses-list/courses-li
 import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 import { CompanyRegisterComponent } from './components/company-register/company-register.component';
 import { UserProfileComponent } from './components/views/user-profile/user-profile.component';
 import { UsersListComponent } from './components/views/users-list/users-list.component';
 import { CategoriesListComponent } from './components/views/categories-list/categories-list.component';
 import { CompaniesListComponent } from './components/views/companies-list/companies-list.component';
-import { GroupsListComponent } from './components/views/groups-list/groups-list.component';
+import { CompanyManagementComponent } from './components/views/company-management/company-management.component';
+import { CourseCatalogComponent } from './components/views/course-catalog/course-catalog.component';
+import { CourseDetailsComponent } from './components/views/course-details/course-details.component';
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },
@@ -24,10 +27,23 @@ const routes: Routes = [
   { path: 'Users', component: UsersListComponent, canActivate: [AuthGuard] },
   { path: 'Categories', component: CategoriesListComponent, canActivate: [AuthGuard] },
   { path: 'Companies', component: CompaniesListComponent, canActivate: [AuthGuard] },
-  { path: 'Groups', component: GroupsListComponent, canActivate: [AuthGuard] },
+  { path: 'CompanyManagement', component: CompanyManagementComponent, canActivate: [AuthGuard] },
   { path: 'Courses', component: CoursesListComponent, canActivate: [AuthGuard] },
   { path: 'Courses/Create', component: CourseCreateComponent, canActivate: [AuthGuard] },
+  { path: 'Courses/Edit/:courseId', component: CourseCreateComponent, canActivate: [AuthGuard] },
   { path: 'Course/:courseId', component: CourseDetailComponent, canActivate: [AuthGuard] },
+  { 
+    path: 'course-catalog', 
+    component: CourseCatalogComponent, 
+    canActivate: [RoleGuard],
+    data: { role: 'Company' } 
+  },
+  { 
+    path: 'course-details/:id', 
+    component: CourseDetailsComponent, 
+    canActivate: [RoleGuard],
+    data: { role: 'Company' } 
+  },
   { path: '**', redirectTo: '' }
 ];
 

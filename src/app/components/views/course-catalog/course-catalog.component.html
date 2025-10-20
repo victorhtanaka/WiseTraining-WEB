@@ -1,0 +1,152 @@
+<div class="catalog-container">
+  <h1>Catálogo de Cursos</h1>
+  
+  <!-- Seção de Filtros -->
+  <div class="filter-section">
+    <h2>Filtrar Cursos</h2>
+    <form [formGroup]="searchForm" (change)="onFilterChange()">
+      <div class="filter-form">
+        <!-- Busca por termo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar cursos</mat-label>
+          <input matInput formControlName="searchTerm" placeholder="Digite um termo para busca">
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+        
+        <!-- Filtro por categoria -->
+        <mat-form-field appearance="outline">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option [value]="null">Todas as categorias</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{category.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- Filtro por idioma -->
+        <mat-form-field appearance="outline">
+          <mat-label>Idioma</mat-label>
+          <mat-select formControlName="language">
+            <mat-option [value]="''">Todos os idiomas</mat-option>
+            <mat-option *ngFor="let lang of languages" [value]="lang">
+              {{lang}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- Filtro por tags -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tags</mat-label>
+          <mat-select formControlName="tagIds" multiple>
+            <mat-option *ngFor="let tag of tags" [value]="tag.id">
+              {{tag.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- Filtro por preço mínimo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Preço mínimo</mat-label>
+          <input matInput type="number" min="0" formControlName="minPrice">
+          <mat-icon matPrefix>attach_money</mat-icon>
+        </mat-form-field>
+        
+        <!-- Filtro por preço máximo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Preço máximo</mat-label>
+          <input matInput type="number" min="0" formControlName="maxPrice">
+          <mat-icon matPrefix>attach_money</mat-icon>
+        </mat-form-field>
+      </div>
+      
+      <div class="filter-actions">
+        <button mat-stroked-button color="warn" type="button" (click)="resetFilters()">
+          <mat-icon>clear</mat-icon>
+          Limpar filtros
+        </button>
+        <button mat-raised-button color="primary" type="button" (click)="searchCourses()">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Resultados da Busca -->
+  <div class="search-results" *ngIf="!isLoading">
+    <h2>Resultados ({{totalCourses}} cursos encontrados)</h2>
+    
+    <!-- Grid de Cursos -->
+    <div class="course-grid" *ngIf="courses.length > 0">
+      <mat-card class="course-card" *ngFor="let course of courses">
+        <img *ngIf="course.media?.url" mat-card-image [src]="course.media?.url" [alt]="course.title" class="course-image">
+        <img *ngIf="!course.media?.url" mat-card-image src="assets/images/course-placeholder.jpg" alt="Imagem do curso" class="course-image">
+        
+        <mat-card-header>
+          <mat-card-title>{{course.title}}</mat-card-title>
+          <mat-card-subtitle>{{course.category?.name}}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p>{{ (course.description || '') | slice:0:100 }}{{ (course.description?.length || 0) > 100 ? '...' : '' }}</p>
+          
+          <div class="course-details">
+            <div>
+              <mat-icon>schedule</mat-icon>
+              <span>{{course.duration}} minutos</span>
+            </div>
+            
+            <div *ngIf="course.language">
+              <mat-icon>language</mat-icon>
+              <span>{{course.language}}</span>
+            </div>
+          </div>
+          
+          <div class="course-tags">
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let tag of course.tags">{{tag.name}}</mat-chip>
+            </mat-chip-listbox>
+          </div>
+          
+          <div class="course-price">
+            R$ {{course.price | number:'1.2-2'}}
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-button color="primary" (click)="viewCourse(course.id)">
+            <mat-icon>visibility</mat-icon>
+            Ver detalhes
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    
+    <!-- Mensagem de nenhum curso encontrado -->
+    <div class="no-courses" *ngIf="courses.length === 0">
+      <mat-icon>search_off</mat-icon>
+      <h3>Nenhum curso encontrado com os filtros atuais</h3>
+      <button mat-stroked-button color="primary" (click)="resetFilters()">
+        <mat-icon>refresh</mat-icon>
+        Limpar filtros e tentar novamente
+      </button>
+    </div>
+    
+    <!-- Paginação -->
+    <mat-paginator
+      [length]="totalCourses"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="currentPage"
+      (page)="onPageChange($event)"
+      *ngIf="totalCourses > 0">
+    </mat-paginator>
+  </div>
+  
+  <!-- Indicador de carregamento -->
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Carregando cursos...</p>
+  </div>
+</div>

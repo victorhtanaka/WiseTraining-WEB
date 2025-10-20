@@ -13,18 +13,33 @@ export class UnloggedComponent implements OnInit {
   features = [
     { 
       title: 'Course Creation', 
-      description: 'Create engaging courses with multimedia content and track student progress.',
+      description: 'Create engaging courses with multimedia content and track student progress in real-time.',
       icon: 'school'
     },
     { 
       title: 'AI-Assisted Content', 
-      description: 'Generate course content ideas and descriptions with our AI assistant.',
+      description: 'Generate course content ideas and descriptions with our AI assistant for efficient development.',
       icon: 'auto_fix_high'
     },
     { 
       title: 'Interactive Learning', 
-      description: 'Engage with course material through interactive exercises and assessments.',
+      description: 'Engage with course material through interactive exercises and comprehensive assessments.',
       icon: 'psychology'
+    },
+    {
+      title: 'Analytics Dashboard',
+      description: 'Track learning metrics and course performance with detailed analytics and reporting.',
+      icon: 'insights'
+    },
+    {
+      title: 'Team Management',
+      description: 'Organize learners into groups and assign tailored training paths for targeted skill development.',
+      icon: 'groups'
+    },
+    {
+      title: 'Mobile Learning',
+      description: 'Access all course materials on any device with our responsive mobile-friendly platform.',
+      icon: 'devices'
     }
   ];
 

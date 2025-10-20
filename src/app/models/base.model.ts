@@ -1,9 +1,9 @@
 export interface Base {
     id: number;
     createdById?: number;
-    modifiedById?: number;
+    updatedById?: number;
     createdAt?: Date;
-    modifiedAt?: Date;
+    updatedAt?: Date;
     isDeleted?: boolean;
     deletedAt?: Date;
   }

@@ -1,26 +1,128 @@
 <div class="dashboard-container">
-  <h1 class="dashboard-title">My Training</h1>
-  
-  <div class="courses-grid">
-    <!-- Reuso de componentes da biblioteca Angular Material na confecção de páginas -->
-     <!-- Exemplo: <mat-card> </mat-card> <mat-dialog-close> </mat-dialog-close> -->
-    <mat-card *ngFor="let course of courses" class="course-card">
-      <img mat-card-image [src]="course.image" [alt]="course.title" class="course-image">
-      
-      <mat-card-content>
-        <h2 class="course-title">{{course.title}}</h2>
-        <div class="progress-container">
-          <mat-progress-bar [value]="course.progress"></mat-progress-bar>
-          <span class="progress-text">{{course.progress}}% complete</span>
+  <div *ngIf="isCompanyRole()" class="company-dashboard">
+    <div class="dashboard-header">
+      <h1 class="welcome-message">Welcome, {{currentUser?.username}}</h1>
+      <p class="company-subtitle">Company Dashboard</p>
+    </div>
+    
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <mat-icon>groups</mat-icon>
+        <div class="stat-content">
+          <h3>Active Users</h3>
+          <p class="stat-value">{{mockStats.activeUsers}}</p>
+          <p class="stat-trend positive">+{{mockStats.userGrowth}}% this month</p>
         </div>
-      </mat-card-content>
+      </div>
       
-      <mat-card-actions>
-        <button mat-flat-button class="course-button" [routerLink]="['/Course', course.id]">
-          {{ course.progress > 0 && course.progress < 100 ? 'Continue Learning' : 
-             course.progress === 100 ? 'Review Course' : 'Start Course' }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+      <div class="stat-card">
+        <mat-icon>menu_book</mat-icon>
+        <div class="stat-content">
+          <h3>Course Catalog</h3>
+          <p class="stat-value">{{mockStats.courses}}</p>
+          <p class="stat-trend">{{mockStats.newCourses}} new additions</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <mat-icon>insights</mat-icon>
+        <div class="stat-content">
+          <h3>Completion Rate</h3>
+          <p class="stat-value">{{mockStats.completionRate}}%</p>
+          <p class="stat-trend positive">+{{mockStats.completionGrowth}}% improvement</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-actions">
+      <button mat-flat-button color="primary" routerLink="/course-catalog">
+        <mat-icon>add</mat-icon>
+        Assign Courses
+      </button>
+      <button mat-stroked-button routerLink="/CompanyManagement">
+        <mat-icon>business</mat-icon>
+        Manage Company
+      </button>
+    </div>
+    
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Recent Activity</h2>
+        <a routerLink="/activities" class="view-all">View All</a>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of mockActivities">
+          <div class="activity-icon" [ngClass]="activity.type">
+            <mat-icon>{{activity.icon}}</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p class="activity-text">{{activity.text}}</p>
+            <p class="activity-time">{{activity.time}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="isStudentRole()" class="student-dashboard">
+    <div class="dashboard-header">
+      <h1 class="welcome-message">Welcome back, {{currentUser?.username}}</h1>
+      <p class="subtitle">Continue your learning journey</p>
+    </div>
+    
+    <div class="progress-overview">
+      <div class="progress-card">
+        <div class="progress-header">
+          <h3>Your Learning Progress</h3>
+          <span class="progress-percent">{{mockStudentStats.overallProgress}}%</span>
+        </div>
+        <mat-progress-bar mode="determinate" [value]="mockStudentStats.overallProgress"></mat-progress-bar>
+        <p class="progress-text">Keep going! You're making great progress.</p>
+      </div>
+    </div>
+    
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Continue Learning</h2>
+        <a routerLink="/courses" class="view-all">View All Courses</a>
+      </div>
+      <div class="courses-grid">
+        <div class="course-card" *ngFor="let course of courses | slice:0:3">
+          <div class="course-image">
+            <img [src]="course.image" [alt]="course.hint">
+            <div class="course-progress">
+              <mat-progress-bar mode="determinate" [value]="course.progress"></mat-progress-bar>
+              <span class="progress-text">{{course.progress}}% Complete</span>
+            </div>
+          </div>
+          <div class="course-content">
+            <h3>{{course.title}}</h3>
+            <button mat-button color="primary" [routerLink]="['/Course', course.id]">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Upcoming Deadlines</h2>
+      </div>
+      <div class="deadlines-list">
+        <div class="deadline-item" *ngFor="let deadline of mockDeadlines">
+          <div class="deadline-date">
+            <span class="day">{{deadline.day}}</span>
+            <span class="month">{{deadline.month}}</span>
+          </div>
+          <div class="deadline-content">
+            <h4>{{deadline.title}}</h4>
+            <p>{{deadline.description}}</p>
+          </div>
+          <div class="deadline-time">
+            <mat-icon>schedule</mat-icon>
+            <span>{{deadline.timeLeft}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

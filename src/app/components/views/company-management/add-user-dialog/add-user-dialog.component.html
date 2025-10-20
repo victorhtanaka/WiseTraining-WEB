@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Adicionar Usuário ao Grupo</h2>
+
+<mat-dialog-content>
+  <div *ngIf="availableUsers.length > 0">
+    <p>Selecione um usuário para adicionar ao grupo:</p>
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Selecionar Usuário</mat-label>
+      <mat-select [(value)]="selectedUserId">
+        <mat-option *ngFor="let user of availableUsers" [value]="user.id">
+          {{user.fullName}} ({{user.email}})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div *ngIf="availableUsers.length === 0">
+    <p>Não há usuários disponíveis para adicionar a este grupo.</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="!selectedUserId" (click)="onSubmit()">
+    Adicionar
+  </button>
+</mat-dialog-actions>

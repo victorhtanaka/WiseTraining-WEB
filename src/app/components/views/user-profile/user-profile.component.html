@@ -22,15 +22,6 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Role</mat-label>
-          <mat-select formControlName="roleId" [disabled]="true">
-            <mat-option *ngFor="let role of roles" [value]="role.id">
-              {{ role.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
         <div class="button-row">
           <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid || isLoading">
             <mat-icon>save</mat-icon>
