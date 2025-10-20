@@ -21,10 +21,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Restore dependencies
-        run: dotnet restore WiseTraining.API/WiseTraining.API.csproj
+        run: dotnet restore WiseTraining.API.sln
 
-      - name: Build project
-        run: dotnet build WiseTraining.API/WiseTraining.API.csproj --configuration Release --no-restore
+      - name: Build solution
+        run: dotnet build WiseTraining.API.sln --configuration Release --no-restore
 
       - name: Publish API project
         run: dotnet publish WiseTraining.API/WiseTraining.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/publish"
