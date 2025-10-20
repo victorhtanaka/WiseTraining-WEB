@@ -21,10 +21,10 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Restore dependencies
-        run: dotnet restore WISETRAINING.API.sln
+        run: dotnet restore WISETRAINING.API.csproj
 
       - name: Build solution
-        run: dotnet build WISETRAINING.API.sln --configuration Release --no-restore
+        run: dotnet build WISETRAINING.API.csproj --configuration Release --no-restore
 
       - name: Publish API project
         run: dotnet publish WISETRAINING.API/WISETRAINING.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/publish"
@@ -52,3 +52,4 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C57C9CA4890C44E69695F0CA27550979 }}
           package: .
+
