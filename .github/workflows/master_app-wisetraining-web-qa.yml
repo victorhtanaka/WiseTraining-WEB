@@ -1,3 +1,12 @@
+name: Build and deploy ASP.Net Core API to Azure Web App - app-wisetraining-web-qa
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
   build:
     runs-on: windows-latest
     permissions:
@@ -10,7 +19,7 @@
         run: |
           echo "Current directory:"
           pwd
-          echo "Listing files recursively:"
+          echo "Listing .csproj files recursively:"
           dir -Recurse | Select-String .csproj
 
       - name: Set up .NET 8
@@ -32,3 +41,21 @@
         with:
           name: wisetraining-api
           path: ${{env.DOTNET_ROOT}}/publish
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Download published artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: wisetraining-api
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-wisetraining-web-qa'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C57C9CA4890C44E69695F0CA27550979 }}
+          package: .
