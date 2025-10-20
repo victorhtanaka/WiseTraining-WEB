@@ -1,12 +1,3 @@
-name: Build and deploy ASP.Net Core API to Azure Web App - app-wisetraining-web-qa
-
-on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
-
-jobs:
   build:
     runs-on: windows-latest
     permissions:
@@ -15,40 +6,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: List files (debug)
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Listing files recursively:"
+          dir -Recurse | Select-String .csproj
+
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
-      - name: Restore dependencies
-        run: dotnet restore WiseTraining.API.sln
-
-      - name: Build solution
-        run: dotnet build WiseTraining.API.sln --configuration Release --no-restore
+      - name: Restore and build solution
+        run: |
+          dotnet restore WISETRAINING.API.sln
+          dotnet build WISETRAINING.API.sln --configuration Release --no-restore
 
       - name: Publish API project
-        run: dotnet publish WiseTraining.API/WiseTraining.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/publish"
+        run: |
+          dotnet publish **/WiseTraining.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/publish"
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: wisetraining-api
           path: ${{env.DOTNET_ROOT}}/publish
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-
-    steps:
-      - name: Download published artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: wisetraining-api
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'app-wisetraining-web-qa'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C57C9CA4890C44E69695F0CA27550979 }}
-          package: .
