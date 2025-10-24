@@ -9,7 +9,6 @@ import { CourseCreateComponent } from './components/views/course-create/course-c
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
-import { CompanyRegisterComponent } from './components/company-register/company-register.component';
 import { UserProfileComponent } from './components/views/user-profile/user-profile.component';
 import { UsersListComponent } from './components/views/users-list/users-list.component';
 import { CategoriesListComponent } from './components/views/categories-list/categories-list.component';
@@ -17,6 +16,7 @@ import { CompaniesListComponent } from './components/views/companies-list/compan
 import { CompanyManagementComponent } from './components/views/company-management/company-management.component';
 import { CourseCatalogComponent } from './components/views/course-catalog/course-catalog.component';
 import { CourseDetailsComponent } from './components/views/course-details/course-details.component';
+import { CompanyRegisterComponent } from './components/views/company-register/company-register.component';
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },

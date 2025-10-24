@@ -53,7 +53,6 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { DashboardComponent } from './components/views/dashboard/dashboard.component';
 import { CoursesListComponent } from './components/views/courses-list/courses-list.component';
 import { CourseDetailComponent } from './components/views/course-detail/course-detail.component';
-import { CompanyRegisterComponent } from './components/company-register/company-register.component';
 import { CourseCreateComponent } from './components/views/course-create/course-create.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UserProfileComponent } from './components/views/user-profile/user-profile.component';
@@ -70,6 +69,7 @@ import { ConfirmDialogComponent } from './components/views/company-management/co
 import { CourseCatalogComponent } from './components/views/course-catalog/course-catalog.component';
 import { CourseDetailsComponent } from './components/views/course-details/course-details.component';
 import { ConfirmDialogComponent as SharedConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
+import { CompanyRegisterComponent } from './components/views/company-register/company-register.component';
 
 @NgModule({
     declarations: [
