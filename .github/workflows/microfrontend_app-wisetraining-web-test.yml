@@ -35,12 +35,20 @@ jobs:
           npm run build --if-present
           if (Test-Path "karma.conf.js") { npx ng test --watch=false --browsers=ChromeHeadless }
 
-      # 4. Upload artefato gerado
+      # 4. Preparar pacote de deploy
+      - name: Prepare deployment package
+        run: |
+          mkdir deploy
+          copy server.js deploy/
+          copy package.json deploy/
+          xcopy dist\WebTemplate deploy\WebTemplate /E /I /Y
+
+      # 5. Upload artefato gerado
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
           name: angular-app
-          path: .
+          path: deploy/
 
   deploy:
     name: Deploy to Azure Web App
@@ -53,7 +61,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: angular-app
-          path: .
+          path: deploy
 
       # 2. Deploy para Azure Web App
       - name: Deploy to Azure Web App
@@ -62,4 +70,4 @@ jobs:
           app-name: 'app-wisetraining-web-test'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_123928CE6AA448218F8BE3880898BC8F }}
-          package: .
+          package: deploy
