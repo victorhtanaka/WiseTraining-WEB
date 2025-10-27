@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -9,6 +8,23 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "noImplicitOverride": true,
+    "paths": {
+      "mfe-admin": [
+        "./dist/mfe-admin"
+      ],
+      "mfe-auth": [
+        "./dist/mfe-auth"
+      ],
+      "mfe-company": [
+        "./dist/mfe-company"
+      ],
+      "mfe-courses": [
+        "./dist/mfe-courses"
+      ],
+      "shared-lib": [
+        "./dist/shared-lib"
+      ]
+    },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

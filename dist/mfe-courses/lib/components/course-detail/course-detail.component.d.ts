@@ -1,0 +1,31 @@
+import { OnInit, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Course } from 'shared-lib';
+import { CourseService } from 'shared-lib';
+import { MediaService } from 'shared-lib';
+import { CourseContent } from 'shared-lib';
+import * as i0 from "@angular/core";
+export declare class CourseDetailComponent implements OnInit {
+    private route;
+    private router;
+    private courseService;
+    private mediaService;
+    private snackBar;
+    courseId: number;
+    course: Course | null;
+    courseContents: CourseContent[];
+    isLoading: boolean;
+    selectedContent: CourseContent | null;
+    videoElement: ElementRef<HTMLVideoElement>;
+    constructor(route: ActivatedRoute, router: Router, courseService: CourseService, mediaService: MediaService, snackBar: MatSnackBar);
+    ngOnInit(): void;
+    loadCourseData(courseId: number, contentId?: number | null): void;
+    selectContent(content: CourseContent): void;
+    getMediaUrl(url: string | undefined): string;
+    isVideoPlaying(video: HTMLVideoElement): boolean;
+    playVideo(event: Event): void;
+    navigateContent(direction: 'next' | 'prev'): void;
+    static ɵfac: i0.ɵɵFactoryDeclaration<CourseDetailComponent, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CourseDetailComponent, "app-course-detail", never, {}, {}, never, never, false, never>;
+}

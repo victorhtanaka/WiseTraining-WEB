@@ -1,0 +1,85 @@
+import { Injectable } from '@angular/core';
+import { Auth, signInWithPopup, GoogleAuthProvider, getIdToken, signOut  } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
+import { JwtUser } from '../models/jwt-user.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private readonly tokenKey = 'token';
+  private currentUser: JwtUser | null = null;
+
+  constructor(private readonly router: Router, private readonly auth: Auth) {
+    const token = this.getToken();
+    if (token && this.isTokenValid(token)) {
+      this.setUserFromToken(token);
+    } else {
+      this.logout();
+    }
+  }
+
+  authenticate(token: string) {
+    localStorage.setItem(this.tokenKey, token);
+    this.setUserFromToken(token);
+  }
+  
+  private setUserFromToken(token: string) {
+    try {
+      this.currentUser = jwtDecode<JwtUser>(token);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      this.currentUser = null;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem(this.tokenKey);
+    this.currentUser = null;
+    this.router.navigate(['/Unlogged']);
+  }
+
+  private isTokenValid(token: string): boolean {
+    try {
+      const decoded = jwtDecode<JwtUser>(token);
+      return decoded.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    
+    return !!token && this.isTokenValid(token);
+  }
+
+  async getFirebaseToken(): Promise<string | null> {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(this.auth, provider);
+    const user = result.user;
+
+    return await getIdToken(user);
+  }
+
+  logoutGoogle() {
+    const auth = this.auth;
+    return signOut(auth);
+  }
+  
+  getCurrentUser(): JwtUser | null {
+    const token = this.getToken();
+    if (token && this.isTokenValid(token)) {
+      if (!this.currentUser) {
+        this.setUserFromToken(token);
+      }
+      return this.currentUser;
+    }
+    return null;
+  }
+}
