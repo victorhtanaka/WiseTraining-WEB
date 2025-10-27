@@ -63,11 +63,25 @@ jobs:
           name: angular-app
           path: deploy
 
-      # 2. Deploy para Azure Web App
+      # 2. Debug: listar conteúdo do pacote de deploy
+      - name: List deploy folder contents
+        run: |
+          Write-Host 'Contents of deploy:'
+          Get-ChildItem -Path deploy -Recurse | ForEach-Object { Write-Host $_.FullName }
+        shell: powershell
+
+      # 3. Compress deployment package to ZIP
+      - name: Create deploy ZIP
+        run: |
+          if (Test-Path deploy.zip) { Remove-Item deploy.zip -Force }
+          Compress-Archive -Path deploy\* -DestinationPath deploy.zip
+        shell: powershell
+
+      # 4. Deploy para Azure Web App (usando ZIP)
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'app-wisetraining-web-test'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_123928CE6AA448218F8BE3880898BC8F }}
-          package: deploy
+          package: deploy.zip
