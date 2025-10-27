@@ -33,7 +33,7 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
-          if [ -f "karma.conf.js" ]; then npx ng test --watch=false --browsers=ChromeHeadless; fi
+          if (Test-Path "karma.conf.js") { npx ng test --watch=false --browsers=ChromeHeadless }
 
       # 4. Upload artefato gerado
       - name: Upload artifact for deployment
