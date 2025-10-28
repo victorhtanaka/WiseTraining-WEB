@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/views/dashboard/dashboard.compo
 
 const routes: Routes = [
   { path: '', component: UnloggedComponent },
+  { path: 'Unlogged', component: UnloggedComponent },
   { path: 'Dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   
   // Auth Microfrontend
