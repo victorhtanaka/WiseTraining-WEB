@@ -6,7 +6,8 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "build:prod": "ng build --configuration production",
+    "build:libs": "ng build shared-lib && ng build mfe-auth && ng build mfe-courses && ng build mfe-admin && ng build mfe-company",
+    "build:prod": "npm run build:libs && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
