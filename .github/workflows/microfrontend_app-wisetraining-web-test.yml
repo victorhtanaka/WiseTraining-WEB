@@ -38,7 +38,9 @@ jobs:
         run: |
           mkdir deploy
           copy web.config deploy\
-          xcopy dist\WebTemplate\browser\* deploy\ /E /I /Y
+          copy server.js deploy\
+          copy package.json deploy\
+          xcopy dist\WebTemplate\browser\* deploy\dist\WebTemplate\browser\ /E /I /Y
 
       # 5. Upload artefato
       - name: Upload artifact for deployment

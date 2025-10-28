@@ -3,16 +3,19 @@ const path = require('path');
 
 const app = express();
 
-// Serve os arquivos estáticos do Angular
-app.use(express.static(path.join(__dirname, 'dist/WebTemplate')));
+// Caminho correto para a build Angular
+const angularAppPath = path.join(__dirname, 'dist/WebTemplate/browser');
 
-// Rota padrão para o index.html (SPA)
+// Serve arquivos estáticos
+app.use(express.static(angularAppPath));
+
+// Rota fallback para SPA
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/WebTemplate/index.html'));
+  res.sendFile(path.join(angularAppPath, 'index.html'));
 });
 
-// Porta fornecida pelo Azure
+// Porta do Azure
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log(`App running on port ${port}`);
+  console.log(`Servidor rodando na porta ${port}`);
 });
