@@ -4,9 +4,15 @@
   "main": "server.js",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "ng build",
+    "build:prod": "ng build --configuration production"
   },
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   }
 }
