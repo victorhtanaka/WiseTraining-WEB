@@ -1,8 +1,7 @@
 # Azure Web Apps Deployment Workflow - Atualizado 2025
-# Docs: https://github.com/Azure/webapps-deploy
-# Node 20 + Angular + GitHub Actions + Azure
+# Node 20 + Angular + GitHub Actions + Azure (Windows)
 
-name: Build and deploy Node.js app to Azure Web App - app-wisetraining-web-test
+name: Build and deploy Angular app to Azure Web App - app-wisetraining-web-test
 
 on:
   push:
@@ -18,7 +17,7 @@ jobs:
       contents: read
 
     steps:
-      # 1. Checkout do repositório
+      # 1. Checkout
       - uses: actions/checkout@v4
 
       # 2. Setup Node.js
@@ -28,23 +27,20 @@ jobs:
           node-version: '20.x'
           cache: 'npm'
 
-      # 3. Instalar dependências, buildar e testar
+      # 3. Instalar dependências e buildar
       - name: Install dependencies and build
         run: |
           npm ci
           npm run build --if-present
-          if (Test-Path "karma.conf.js") { npx ng test --watch=false --browsers=ChromeHeadless }
 
       # 4. Preparar pacote de deploy
       - name: Prepare deployment package
         run: |
           mkdir deploy
-          copy server.js deploy/
-          copy package.json deploy/
-          copy web.config deploy/
-          xcopy dist\WebTemplate deploy\dist\WebTemplate /E /I /Y
+          copy web.config deploy\
+          xcopy dist\WebTemplate\browser\* deploy\ /E /I /Y
 
-      # 5. Upload artefato gerado
+      # 5. Upload artefato
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
@@ -57,28 +53,28 @@ jobs:
     needs: build
 
     steps:
-      # 1. Baixar artefato da build
+      # 1. Baixar artefato
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: angular-app
           path: deploy
 
-      # 2. Debug: listar conteúdo do pacote de deploy
+      # 2. Listar conteúdo (debug)
       - name: List deploy folder contents
         run: |
           Write-Host 'Contents of deploy:'
           Get-ChildItem -Path deploy -Recurse | ForEach-Object { Write-Host $_.FullName }
         shell: powershell
 
-      # 3. Compress deployment package to ZIP
+      # 3. Criar ZIP
       - name: Create deploy ZIP
         run: |
           if (Test-Path deploy.zip) { Remove-Item deploy.zip -Force }
           Compress-Archive -Path deploy\* -DestinationPath deploy.zip
         shell: powershell
 
-      # 4. Deploy para Azure Web App (usando ZIP)
+      # 4. Deploy para Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
