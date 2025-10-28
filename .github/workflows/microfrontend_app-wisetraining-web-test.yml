@@ -40,6 +40,8 @@ jobs:
           copy web.config deploy\
           copy server.js deploy\
           copy package.json deploy\
+          npm install --production
+          xcopy node_modules deploy\node_modules /E /I /Y
           xcopy dist\WebTemplate\browser\* deploy\dist\WebTemplate\browser\ /E /I /Y
 
       # 5. Upload artefato
