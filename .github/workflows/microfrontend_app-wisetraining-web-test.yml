@@ -41,6 +41,7 @@ jobs:
           mkdir deploy
           copy server.js deploy/
           copy package.json deploy/
+          copy web.config deploy/
           xcopy dist\WebTemplate deploy\dist\WebTemplate /E /I /Y
 
       # 5. Upload artefato gerado
