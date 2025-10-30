@@ -135,9 +135,6 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-.back-button {
-  margin-top: 1rem;
-}
 
 @media (max-width: 768px) {
   .course-container {
@@ -261,31 +258,7 @@
   margin-top: 1rem;
 }
 
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 60vh;
-  gap: 1.5rem;
-}
-
-.not-found-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 60vh;
-  gap: 1rem;
-  text-align: center;
-}
-
-.not-found-icon {
-  font-size: 4rem;
-  height: 4rem;
-  width: 4rem;
-  color: rgba(0, 0, 0, 0.4);
-}
+/* common utilities moved to src/styles.scss */
 
 .course-description,
 .lesson-content {
