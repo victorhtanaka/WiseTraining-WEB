@@ -28,11 +28,15 @@ jobs:
           npm install
           npm run build --if-present
 
+      - name: Create production package.json
+        run: |
+          echo '{"name":"web-template","version":"1.0.0","scripts":{"start":"npx serve -s . -l 8080"},"dependencies":{"serve":"^14.2.1"}}' > dist/WebTemplate/package.json
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: dist/WebTemplate
 
   deploy:
     runs-on: ubuntu-latest
