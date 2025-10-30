@@ -61,4 +61,3 @@ jobs:
           slot-name: 'Production'
           package: prod.zip
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E59A594BF1E741809B8559669BEFAB96 }}
-          startup-command: 'pm2 serve /home/site/wwwroot/WebTemplate --spa --no-daemon'
