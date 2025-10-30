@@ -37,8 +37,21 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false,
+    // Use headless Chrome in CI environments (no X server). Locally keep the regular Chrome browser
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          '--remote-debugging-port=9222'
+        ]
+      }
+    },
+    browsers: process.env.CI ? ['ChromeHeadlessNoSandbox'] : ['Chrome'],
+    singleRun: !!process.env.CI,
+    autoWatch: !process.env.CI,
     restartOnFileChange: true
   });
 };
