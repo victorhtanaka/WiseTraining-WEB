@@ -96,8 +96,7 @@ import { CompanyRegisterComponent } from './components/views/company-register/co
         GroupDialogComponent,
         ConfirmDialogComponent,
         CourseCatalogComponent,
-        CourseDetailsComponent,
-        SharedConfirmDialogComponent
+        CourseDetailsComponent
     ],
     bootstrap: [
         AppComponent
