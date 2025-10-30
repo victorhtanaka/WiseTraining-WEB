@@ -28,9 +28,12 @@ jobs:
           npm install
           npm run build --if-present
 
-      - name: Create production package.json
+      - name: Create production package.json and install serve
         run: |
-          echo '{"name":"web-template","version":"1.0.0","scripts":{"start":"npx serve -s . -l 8080"},"dependencies":{"serve":"^14.2.1"}}' > dist/WebTemplate/package.json
+          cd dist/WebTemplate
+          npm init -y
+          npm install serve@14.2.1
+          npm pkg set scripts.start="serve -s . -l 8080"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -56,3 +59,4 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E59A594BF1E741809B8559669BEFAB96 }}
+          startup-command: 'npm start'
